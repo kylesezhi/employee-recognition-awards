@@ -1,3 +1,15 @@
+<?php 
+require("dbconfig.php");
+
+//Turn on error reporting
+ini_set('display_errors', 'On');
+//Connects to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -70,7 +82,6 @@
                   <th>ID</th>
                   <th>First name</th>
                   <th>Last name</th>
-                  <th>Username</th>
                   <th>Email</th>
                   <th>State</th>
                   <th>Awards sent</th>
@@ -81,32 +92,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
+                <?php
+                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'admin'"))){
+                  echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+                }
+                if(!$stmt->execute()){
+                  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $sig)){
+                  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+                while($stmt->fetch()){
+                  echo "<tr>";
+                  echo "<td class=\"id\">" . $id . "</td>";
+                  echo "<td class=\"first_name\">" . $first_name . "</td>";
+                  echo "<td class=\"last_name\">" . $last_name . "</td>";
+                  echo "<td class=\"email\">" . $email . "</td>";
+                  echo "<td class=\"state\">" . $state . "</td>";
+                  echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
+                  echo "<td class=\"created\">" . $created . "</td>";
+                  echo "<td class=\"sig\">" . $sig . "</td>";
+                  echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
+                  echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
+                  echo "</tr>";
+                }
+                $stmt->close();
+                ?>
               </tbody>
             </table>
           </div>
@@ -119,7 +130,6 @@
                   <th>ID</th>
                   <th>First name</th>
                   <th>Last name</th>
-                  <th>Username</th>
                   <th>Email</th>
                   <th>State</th>
                   <th>Awards sent</th>
@@ -130,32 +140,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
+                <?php
+                if(!($stmt2 = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'regular'"))){
+                  echo "Prepare failed: " . $stmt2->errno . " " . $stmt2->error;
+                }
+                if(!$stmt2->execute()){
+                  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+                if(!$stmt2->bind_result($first_name, $last_name, $email, $state, $id, $created, $sig)){
+                  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+                while($stmt2->fetch()){
+                  echo "<tr>";
+                  echo "<td class=\"id\">" . $id . "</td>";
+                  echo "<td class=\"first_name\">" . $first_name . "</td>";
+                  echo "<td class=\"last_name\">" . $last_name . "</td>";
+                  echo "<td class=\"email\">" . $email . "</td>";
+                  echo "<td class=\"state\">" . $state . "</td>";
+                  echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
+                  echo "<td class=\"created\">" . $created . "</td>";
+                  echo "<td class=\"sig\">" . $sig . "</td>";
+                  echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
+                  echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
+                  echo "</tr>";
+                }
+                $stmt2->close();
+                ?>
               </tbody>
             </table>
           </div>

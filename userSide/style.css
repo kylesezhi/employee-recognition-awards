@@ -1,0 +1,31 @@
+body {
+    background-color: LightBlue;
+}
+
+#headerBlock{
+    background-color: deepskyblue;
+}
+
+form{
+    border
+}
+
+th {
+    border: solid 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #BCC6CC;
+}
+
+td {
+    border: solid 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+table {
+    border-spacing: 0px;
+    border: solid 1px;
+    margin-top:20px;
+}

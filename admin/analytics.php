@@ -44,56 +44,74 @@ if($mysqli->connect_errno){
 
         var data = google.visualization.arrayToDataTable([
           ['State','Awards'],
-          ['Alabama', 0],
-          ['Alaska', 0],
-          ['Arizona', 50],
-          ['Arkansas', 0],
-          ['California', 0],
-          ['Colorado', 0],
-          ['Connecticut', 50],
-          ['Delaware', 0],
-          ['Florida', 0],
-          ['Georgia', 60],
-          ['Hawaii', 0],
-          ['Idaho', 0],
-          ['Illinois', 30],
-          ['Indiana', 0],
-          ['Iowa', 0],
-          ['Kansas', 70],
-          ['Kentucky', 0],
-          ['Louisiana', 30],
-          ['Maine', 0],
-          ['Maryland', 0],
-          ['Massachusetts', 20],
+          <?php
+          if(!($stmt = $mysqli->prepare("SELECT AU.state, COUNT(CL.id) AS 'AwardCount' FROM award_user AU INNER JOIN award A ON A.user_id = AU.id INNER JOIN class CL ON CL.id = A.class_id GROUP BY AU.state ORDER BY AU.state;"))){
+            echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+          }
+          if(!$stmt->execute()){
+            echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+          }
+          if(!$stmt->bind_result($state, $awards)){
+            echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+          }
+          while($stmt->fetch()){
+            if($state != 'District of Columbia') {
+              echo "['" . $state . "', " . $awards . "],";
+            }
+          }
+          $stmt->close();
+          ?>
+          
+          // ['Alabama', 0],
+          // ['Alaska', 0],
+          // ['Arizona', 50],
+          // ['Arkansas', 0],
+          // ['California', 0],
+          // ['Colorado', 0],
+          // ['Connecticut', 50],
+          // ['Delaware', 0],
+          // ['Florida', 0],
+          // ['Georgia', 60],
+          // ['Hawaii', 0],
+          // ['Idaho', 0],
+          // ['Illinois', 30],
+          // ['Indiana', 0],
+          // ['Iowa', 0],
+          // ['Kansas', 70],
+          // ['Kentucky', 0],
+          // ['Louisiana', 30],
+          // ['Maine', 0],
+          // ['Maryland', 0],
+          // ['Massachusetts', 20],
           // ['Michigan', 0],
-          ['Minnesota', 0],
-          ['Mississippi', 0],
-          ['Missouri', 0],
-          ['Montana', 0],
-          ['Nebraska', 0],
-          ['Nevada', 0],
-          ['New Hampshire', 0],
-          ['New Jersey', 0],
-          ['New Mexico', 0],
-          ['New York', 0],
-          ['North Carolina', 0],
-          ['North Dakota', 0],
-          ['Ohio', 0],
-          ['Oklahoma', 0],
-          ['Oregon', 0],
-          ['Pennsylvania', 0],
-          ['Rhode Island', 0],
-          ['South Carolina', 0],
-          ['South Dakota', 0],
-          ['Tennessee', 0],
-          ['Texas', 0],
-          ['Utah', 0],
-          ['Vermont', 0],
-          ['Virginia', 0],
-          ['Washington', 0],
-          ['West Virginia', 0],
-          ['Wisconsin', 0],
-          ['Wyoming', 0]
+          // ['Minnesota', 0],
+          // ['Mississippi', 0],
+          // ['Missouri', 0],
+          // ['Montana', 0],
+          // ['Nebraska', 0],
+          // ['Nevada', 0],
+          // ['New Hampshire', 0],
+          // ['New Jersey', 0],
+          // ['New Mexico', 0],
+          // ['New York', 0],
+          // ['North Carolina', 0],
+          // ['North Dakota', 0],
+          // ['Ohio', 0],
+          // ['Oklahoma', 0],
+          // ['Oregon', 0],
+          // ['Pennsylvania', 0],
+          // ['Rhode Island', 0],
+          // ['South Carolina', 0],
+          // ['South Dakota', 0],
+          // ['Tennessee', 0],
+          // ['Texas', 0],
+          // ['Utah', 0],
+          // ['Vermont', 0],
+          // ['Virginia', 0],
+          // ['Washington', 0],
+          // ['West Virginia', 0],
+          // ['Wisconsin', 0],
+          // ['Wyoming', 0]
         ]);
 
         var options = {
@@ -137,7 +155,7 @@ if($mysqli->connect_errno){
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="#">Users <span class="sr-only">(current)</span></a></li>
+            <li><a href="index.php">Users <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="#">Analytics</a></li>
             <li><a href="#">Data</a></li>
           </ul>

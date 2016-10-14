@@ -63,7 +63,7 @@ if($mysqli->connect_errno){
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Users <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Analytics</a></li>
+            <li><a href="analytics.php">Analytics</a></li>
             <li><a href="#">Data</a></li>
           </ul>
         </div>

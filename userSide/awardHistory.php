@@ -1,3 +1,8 @@
+<?php
+//Access current session
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +31,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="userAccount.php">User: JoeSmith25</a></li>
-                <li><a href="login.php">Logout</a></li>
+                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
     </div>

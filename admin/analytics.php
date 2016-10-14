@@ -1,3 +1,15 @@
+<?php 
+require("dbconfig.php");
+
+//Turn on error reporting
+ini_set('display_errors', 'On');
+//Connects to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

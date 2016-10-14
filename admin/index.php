@@ -83,23 +83,22 @@ if($mysqli->connect_errno){
                   <th>Last name</th>
                   <th>Email</th>
                   <th>State</th>
-                  <th>Awards sent</th>
-                  <th>User created</th>
-                  <th>Account</th>
+                  <th>Awards</th>
+                  <th>Created</th>
+                  <th>Type</th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                // if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'admin'"))){
-                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id"))){
+                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;"))){
                   echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
                 }
                 if(!$stmt->execute()){
                   echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
-                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type)){
+                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type, $awards)){
                   echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
                 while($stmt->fetch()){
@@ -109,7 +108,7 @@ if($mysqli->connect_errno){
                   echo "<td class=\"last_name\">" . $last_name . "</td>";
                   echo "<td class=\"email\">" . $email . "</td>";
                   echo "<td class=\"state\">" . $state . "</td>";
-                  echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
+                  echo "<td class=\"awards\">" . $awards . "</td>";
                   echo "<td class=\"created\">" . $created . "</td>";
                   echo "<td class=\"type\">"; 
 									if($type == "regular") echo "User";

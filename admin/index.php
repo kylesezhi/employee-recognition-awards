@@ -70,11 +70,10 @@ if($mysqli->connect_errno){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
-          <h1 class="page-header">Users</h1>
           <div class="panel-heading">
             <div class="pull-right"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</button></div>
         </div>
-          <h2 class="sub-header">Admin users</h2>
+          <h2 class="sub-header">Users</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -86,20 +85,21 @@ if($mysqli->connect_errno){
                   <th>State</th>
                   <th>Awards sent</th>
                   <th>User created</th>
-                  <th>Signature</th>
+                  <th>Account</th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'admin'"))){
+                // if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'admin'"))){
+                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id"))){
                   echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
                 }
                 if(!$stmt->execute()){
                   echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
-                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $sig)){
+                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type)){
                   echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
                 while($stmt->fetch()){
@@ -111,7 +111,10 @@ if($mysqli->connect_errno){
                   echo "<td class=\"state\">" . $state . "</td>";
                   echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
                   echo "<td class=\"created\">" . $created . "</td>";
-                  echo "<td class=\"sig\">" . $sig . "</td>";
+                  echo "<td class=\"type\">"; 
+									if($type == "regular") echo "User";
+									else echo "Admin";
+									echo "</td>";
                   echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
                   echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
                   echo "</tr>";
@@ -141,54 +144,6 @@ if($mysqli->connect_errno){
 						    </li>
 						  </ul>
 						</nav>
-          </div>
-
-          <h2 class="sub-header">Regular users</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Email</th>
-                  <th>State</th>
-                  <th>Awards sent</th>
-                  <th>User created</th>
-                  <th>Signature</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                if(!($stmt2 = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'regular'"))){
-                  echo "Prepare failed: " . $stmt2->errno . " " . $stmt2->error;
-                }
-                if(!$stmt2->execute()){
-                  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-                }
-                if(!$stmt2->bind_result($first_name, $last_name, $email, $state, $id, $created, $sig)){
-                  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-                }
-                while($stmt2->fetch()){
-                  echo "<tr>";
-                  echo "<td class=\"id\">" . $id . "</td>";
-                  echo "<td class=\"first_name\">" . $first_name . "</td>";
-                  echo "<td class=\"last_name\">" . $last_name . "</td>";
-                  echo "<td class=\"email\">" . $email . "</td>";
-                  echo "<td class=\"state\">" . $state . "</td>";
-                  echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
-                  echo "<td class=\"created\">" . $created . "</td>";
-                  echo "<td class=\"sig\">" . $sig . "</td>";
-                  echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
-                  echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
-                  echo "</tr>";
-                }
-                $stmt2->close();
-                ?>
-              </tbody>
-            </table>
           </div>
         </div>
         <!-- END PAGE CONTENT -->

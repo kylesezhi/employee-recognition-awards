@@ -21,13 +21,16 @@ if($mysqli->connect_errno){
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Employee Recognition Awards</title>
+    <title>Employee Recognition Awards - Users</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+		
+    <!-- Custom styles for List.js -->
+    <link href="list.css" rel="stylesheet">
 		
 		<!-- Font Awesome -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -68,14 +71,14 @@ if($mysqli->connect_errno){
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Users <span class="sr-only">(current)</span></a></li>
             <li><a href="analytics.php">Analytics</a></li>
-            <li><a href="#">Data</a></li>
+            <li><a href="data.php">Data</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
           <div class="panel-heading">
-            <div class="pull-right"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</button></div>
+            <div class="pull-right"><a href="addUser.php" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</a></div>
         </div>
           <h2 class="sub-header">Users</h2>
           <div class="table-responsive" id="users">

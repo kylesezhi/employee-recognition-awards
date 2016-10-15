@@ -21,7 +21,7 @@ if($mysqli->connect_errno){
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Employee Recognition Awards</title>
+    <title>Employee Recognition Awards - Analytics</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -157,7 +157,7 @@ if($mysqli->connect_errno){
           <ul class="nav nav-sidebar">
             <li><a href="index.php">Users <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="#">Analytics</a></li>
-            <li><a href="#">Data</a></li>
+            <li><a href="data.php">Data</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

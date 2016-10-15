@@ -103,30 +103,3 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
-
-
-/*
- * List.js styles
- */
-
- .sort {
-   background:none!important;
-   border:none;
-   padding:0!important;
-   font: inherit;
- }
-
- .sort:after {
- }
-
- .sort.asc:before {
-   font-family: FontAwesome;
-   content: "\f0d7\a0";
-   color: grey;
- }
-
- .sort.desc:before {
-   font-family: FontAwesome;
-   content: "\f0d8\a0";
-   color: grey;
- }

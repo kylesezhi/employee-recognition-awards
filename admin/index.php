@@ -28,6 +28,9 @@ if($mysqli->connect_errno){
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -80,14 +83,14 @@ if($mysqli->connect_errno){
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Email</th>
-                  <th>State</th>
-                  <th>Awards</th>
-                  <th>Created</th>
-                  <th>Type</th>
+                  <th><button class="sort" data-sort="id">ID</button></th>
+                  <th><button class="sort" data-sort="first_name">First name</th>
+                  <th><button class="sort" data-sort="last_name">Last name</th>
+                  <th><button class="sort" data-sort="email">Email</th>
+                  <th><button class="sort" data-sort="state">State</th>
+                  <th><button class="sort" data-sort="awards">Awards</th>
+                  <th><button class="sort" data-sort="created">Created</th>
+                  <th><button class="sort" data-sort="type">Type</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -124,27 +127,6 @@ if($mysqli->connect_errno){
                 ?>
               </tbody>
             </table>
-						<nav aria-label="Page navigation">
-						  <ul class="pagination">
-						    <li class="page-item">
-						      <a class="page-link" href="#" aria-label="Previous">
-						        <span aria-hidden="true">&laquo;</span>
-						        <span class="sr-only">Previous</span>
-						      </a>
-						    </li>
-						    <li class="page-item"><a class="page-link" href="#">1</a></li>
-						    <li class="page-item"><a class="page-link" href="#">2</a></li>
-						    <li class="page-item"><a class="page-link" href="#">3</a></li>
-						    <li class="page-item"><a class="page-link" href="#">4</a></li>
-						    <li class="page-item"><a class="page-link" href="#">5</a></li>
-						    <li class="page-item">
-						      <a class="page-link" href="#" aria-label="Next">
-						        <span aria-hidden="true">&raquo;</span>
-						        <span class="sr-only">Next</span>
-						      </a>
-						    </li>
-						  </ul>
-						</nav>
           </div>
         </div>
         <!-- END PAGE CONTENT -->
@@ -154,7 +136,7 @@ if($mysqli->connect_errno){
 		
 		<!-- List.js for sorting/searching the table -->
 		<!-- Learn more at: http://www.listjs.com/examples/table -->
-		<script src="http://listjs.com/no-cdn/list.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
 		<script type="text/javascript">
 		var options = {
 			valueNames: [ 'id', 'first_name', 'last_name', 'email', 'state', 'awards', 'created', 'type' ]

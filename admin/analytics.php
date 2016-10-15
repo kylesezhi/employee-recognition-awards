@@ -163,7 +163,27 @@ if($mysqli->connect_errno){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
-          
+          <div class="">
+            <div class="btn-group">
+              <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Awards <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Users</a></li>
+              </ul>
+            </div>
+            BY
+            <div class="btn-group">
+              <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Region <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#">User</a></li>
+                <li><a href="#">Date</a></li>
+                <li><a href="#">Time</a></li>
+              </ul>
+            </div>
+          </div>
           
           <div id="regions_div" style="height: 400px;"></div>
           

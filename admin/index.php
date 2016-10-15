@@ -34,6 +34,7 @@ if($mysqli->connect_errno){
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+				
   </head>
 
   <body>
@@ -74,7 +75,8 @@ if($mysqli->connect_errno){
             <div class="pull-right"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</button></div>
         </div>
           <h2 class="sub-header">Users</h2>
-          <div class="table-responsive">
+          <div class="table-responsive" id="users">
+						<input class="search form-control" placeholder="Search" />
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -90,7 +92,7 @@ if($mysqli->connect_errno){
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="list">
                 <?php
                 if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;"))){
                   echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
@@ -149,6 +151,17 @@ if($mysqli->connect_errno){
         
       </div>
     </div>
+		
+		<!-- List.js for sorting/searching the table -->
+		<!-- Learn more at: http://www.listjs.com/examples/table -->
+		<script src="http://listjs.com/no-cdn/list.js"></script>
+		<script type="text/javascript">
+		var options = {
+			valueNames: [ 'id', 'first_name', 'last_name', 'email', 'state', 'awards', 'created', 'type' ]
+		};
+
+		var userList = new List('users', options);
+		</script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

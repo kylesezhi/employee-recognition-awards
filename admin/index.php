@@ -83,7 +83,7 @@ if($mysqli->connect_errno){
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th><button class="sort" data-sort="id">ID</button></th>
+                  <th><button class="sort asc" data-sort="id">ID</button></th>
                   <th><button class="sort" data-sort="first_name">First name</th>
                   <th><button class="sort" data-sort="last_name">Last name</th>
                   <th><button class="sort" data-sort="email">Email</th>

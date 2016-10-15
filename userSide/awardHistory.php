@@ -58,6 +58,7 @@ session_start();
                     <th>Award Name</th>
                     <th>Award Recipient</th>
                     <th>Award Date</th>
+                    <th></th>
 
                 </thead>
                 <tbody>

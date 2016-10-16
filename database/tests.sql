@@ -33,7 +33,7 @@ INNER JOIN award A ON A.class_id = CL.id
 GROUP BY CL.title;
 
 -- how many awards has each user given
-SELECT AU.first_name, AU.last_name, COUNT(A.class_id) AS 'totalAWards' FROM award_user AU
+SELECT AU.first_name, AU.last_name, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU
 INNER JOIN award A ON A.user_id = AU.id
 GROUP BY AU.last_name;
 

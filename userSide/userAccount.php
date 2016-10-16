@@ -1,6 +1,20 @@
 <?php
+
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
 //Access current session
 session_start();
+
+//Database information
+require "dbconfig.php";
+
+//Connect to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+    echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -60,12 +74,69 @@ session_start();
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Name: </div>
-                    <div class="panel-body">Joe Smith</div>
+                    <div class="panel-body">
+                        <?php
+
+                        //Prepare SELECT statement for user's name
+                        if(!($stmt = $mysqli->prepare("SELECT first_name, last_name FROM award_user WHERE id=?"))){
+                            echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                        }
+
+                        //Set user id for current user
+                        $stmt->bind_param("s", $_SESSION["user_id"]);
+
+                        //Execute the SELECT statement
+                        if(!$stmt->execute()){
+                            echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Bind values to variables
+                        if(!$stmt->bind_result($first_name, $last_name)){
+                            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Output name
+                        while($stmt->fetch()){
+                            echo $first_name . ' ' . $last_name;
+                        }
+
+                        $stmt->close();
+                        ?>
+                    </div>
+
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">State: </div>
-                    <div class="panel-body">CA</div>
+                    <div class="panel-body">
+                        <?php
+
+                        //Prepare SELECT statement for user's state
+                        if(!($stmt = $mysqli->prepare("SELECT state FROM award_user WHERE id=?"))){
+                            echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                        }
+
+                        //Set user id for current user
+                        $stmt->bind_param("s", $_SESSION["user_id"]);
+
+                        //Execute the SELECT statement
+                        if(!$stmt->execute()){
+                            echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Bind values to variables
+                        if(!$stmt->bind_result($state)){
+                            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Output name
+                        while($stmt->fetch()){
+                            echo $state;
+                        }
+
+                        $stmt->close();
+                        ?>
+                    </div>
                 </div>
 
                 <div class="panel panel-default">

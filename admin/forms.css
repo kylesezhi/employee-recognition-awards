@@ -1,0 +1,23 @@
+/*
+ * Forms
+ */
+.form-control {
+  width: 400px;
+}
+
+.inline-radio label {
+  vertical-align: middle;
+}
+
+.inline-radio input[type=text] {
+  width: 290px;
+  display: inline-block;
+}
+
+.panel-group {
+  width: 400px;
+}
+
+.table {
+  width: 700px;
+}

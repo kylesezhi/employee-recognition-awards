@@ -1,9 +1,13 @@
 <?php
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
 //Access current session
 session_start();
 
 //Clear session variables
 unset($_SESSION['username']);
+unset($_SESSION['user_id']);
 
 //End existing session
 session_destroy();

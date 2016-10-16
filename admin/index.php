@@ -21,19 +21,26 @@ if($mysqli->connect_errno){
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Employee Recognition Awards</title>
+    <title>Employee Recognition Awards - Users</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+		
+    <!-- Custom styles for List.js -->
+    <link href="list.css" rel="stylesheet">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+				
   </head>
 
   <body>
@@ -63,43 +70,43 @@ if($mysqli->connect_errno){
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Users <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Data</a></li>
+            <li><a href="analytics.php">Analytics</a></li>
+            <li><a href="data.php">Data</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
           <div class="panel-heading">
-            <div class="pull-right"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</button></div>
+            <div class="pull-right"><a href="addUser.php" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</a></div>
         </div>
           <h2 class="sub-header">Users</h2>
-          <div class="table-responsive">
+          <div class="table-responsive" id="users">
+						<input class="search form-control" placeholder="Search" />
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Email</th>
-                  <th>State</th>
-                  <th>Awards sent</th>
-                  <th>User created</th>
-                  <th>Account</th>
+                  <th><button class="sort asc" data-sort="id">ID</button></th>
+                  <th><button class="sort" data-sort="first_name">First name</th>
+                  <th><button class="sort" data-sort="last_name">Last name</th>
+                  <th><button class="sort" data-sort="email">Email</th>
+                  <th><button class="sort" data-sort="state">State</th>
+                  <th><button class="sort" data-sort="awards">Awards</th>
+                  <th><button class="sort" data-sort="created">Created</th>
+                  <th><button class="sort" data-sort="type">Type</th>
                   <th></th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="list">
                 <?php
-                // if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, AU.sig from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE ACT.title = 'admin'"))){
-                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title from award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id"))){
+                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;"))){
                   echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
                 }
                 if(!$stmt->execute()){
                   echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
-                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type)){
+                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type, $awards)){
                   echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
                 while($stmt->fetch()){
@@ -109,7 +116,7 @@ if($mysqli->connect_errno){
                   echo "<td class=\"last_name\">" . $last_name . "</td>";
                   echo "<td class=\"email\">" . $email . "</td>";
                   echo "<td class=\"state\">" . $state . "</td>";
-                  echo "<td class=\"awards_sent\">" . 'TODO' . "</td>";
+                  echo "<td class=\"awards\">" . $awards . "</td>";
                   echo "<td class=\"created\">" . $created . "</td>";
                   echo "<td class=\"type\">"; 
 									if($type == "regular") echo "User";
@@ -123,33 +130,23 @@ if($mysqli->connect_errno){
                 ?>
               </tbody>
             </table>
-						<nav aria-label="Page navigation">
-						  <ul class="pagination">
-						    <li class="page-item">
-						      <a class="page-link" href="#" aria-label="Previous">
-						        <span aria-hidden="true">&laquo;</span>
-						        <span class="sr-only">Previous</span>
-						      </a>
-						    </li>
-						    <li class="page-item"><a class="page-link" href="#">1</a></li>
-						    <li class="page-item"><a class="page-link" href="#">2</a></li>
-						    <li class="page-item"><a class="page-link" href="#">3</a></li>
-						    <li class="page-item"><a class="page-link" href="#">4</a></li>
-						    <li class="page-item"><a class="page-link" href="#">5</a></li>
-						    <li class="page-item">
-						      <a class="page-link" href="#" aria-label="Next">
-						        <span aria-hidden="true">&raquo;</span>
-						        <span class="sr-only">Next</span>
-						      </a>
-						    </li>
-						  </ul>
-						</nav>
           </div>
         </div>
         <!-- END PAGE CONTENT -->
         
       </div>
     </div>
+		
+		<!-- List.js for sorting/searching the table -->
+		<!-- Learn more at: http://www.listjs.com/examples/table -->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+		<script type="text/javascript">
+		var options = {
+			valueNames: [ 'id', 'first_name', 'last_name', 'email', 'state', 'awards', 'created', 'type' ]
+		};
+
+		var userList = new List('users', options);
+		</script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

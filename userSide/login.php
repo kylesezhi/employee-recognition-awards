@@ -1,6 +1,19 @@
 <?php
+
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
 //Access current session
 session_start();
+
+//Database information
+require "dbconfig.php";
+
+//Connect to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+    echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
 
 //If both username and password entered in login form, set session variables
 if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
@@ -9,11 +22,40 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
     $username = $_POST['inputEmail'];
     $password = $_POST['inputPassword'];
 
-    //Save session variables
-    $_SESSION['username'] = $username;
+    //Prepare SELECT statement to check if username and password match found in database
+    if(!($stmt = $mysqli->prepare("SELECT id, act_id FROM award_user WHERE email=? AND password=?"))){
+        echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+    }
 
-    //Redirect to main user page
-    header('Location: generateAward.php');
+    $stmt->bind_param("ss", $username, $password);
+
+    //Execute the SELECT statement
+    if(!$stmt->execute()){
+        echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+    }
+
+    //Bind values to variables
+    if(!$stmt->bind_result($user_id, $account_type)){
+        echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+    }
+
+    if(!$stmt->fetch()){
+        echo "USER NOT IN DATABASE";
+    }
+
+    else {
+        //Save session variables
+        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user_id;
+
+        $stmt->close();
+
+        //Redirect to main user page
+        header('Location: generateAward.php');
+    }
+
+    $stmt->close();
+
 }
 ?>
 

@@ -1,6 +1,10 @@
 <?php
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
 //Access current session
 session_start();
+
 ?>
 
 <!DOCTYPE html>

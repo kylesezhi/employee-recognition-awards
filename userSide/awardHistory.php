@@ -1,6 +1,10 @@
 <?php
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
 //Access current session
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +62,6 @@ session_start();
                     <th>Award Name</th>
                     <th>Award Recipient</th>
                     <th>Award Date</th>
-                    <th></th>
 
                 </thead>
                 <tbody>

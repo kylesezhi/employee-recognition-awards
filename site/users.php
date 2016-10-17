@@ -62,7 +62,7 @@ if($mysqli->connect_errno){
 		        </div>
 		        <div id="navbar" class="navbar-collapse collapse">
 		            <ul class="nav navbar-nav navbar-right">
-		                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+		                <li><a href="users.php">User: <?php echo $_SESSION["username"] ?></a></li>
 		                <li><a href="logout.php">Logout</a></li>
 		            </ul>
 		        </div>
@@ -126,7 +126,7 @@ if($mysqli->connect_errno){
 									if($type == "regular") echo "User";
 									else echo "Admin";
 									echo "</td>";
-                  echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
+                  echo "<td class=\"edit\"><form method=\"post\" action=\"editUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></form></td>";
                   echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
                   echo "</tr>";
                 }

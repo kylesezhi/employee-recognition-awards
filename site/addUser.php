@@ -97,7 +97,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                    <li><a href="users.php">User: <?php echo $_SESSION["username"] ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </div>

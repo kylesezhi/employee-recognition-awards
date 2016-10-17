@@ -1,15 +1,3 @@
-<?php 
-require("dbconfig.php");
-
-//Turn on error reporting
-ini_set('display_errors', 'On');
-//Connects to the database
-$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
-if($mysqli->connect_errno){
-	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-	}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -77,7 +65,7 @@ if($mysqli->connect_errno){
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Add User</h1>
 
-            <form class="form-horizontal" action="award.php" method="post">
+            <form class="form-horizontal" action="index.php" method="post">
 
                 <div class="form-group">
                     <label class="control-label col-sm-2">Account Type:</label>

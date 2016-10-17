@@ -52,7 +52,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
 
         //Redirect to main user page
         if($account_type == "admin") {
-          header('Location: ../admin/users.php');
+          header('Location: users.php');
           exit();
         } else {
           header('Location: generateAward.php');
@@ -90,7 +90,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
             <p class="lead">Recognize the efforts and achievements of your employees!</p>
         </div>
 
-        <form class="form-signin" action="login.php" method="post">
+        <form class="form-signin" action="index.php" method="post">
             <h2 class="form-signin-heading">Login:</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>

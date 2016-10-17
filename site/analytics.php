@@ -144,7 +144,7 @@ if($mysqli->connect_errno){
 		                <span class="icon-bar"></span>
 		                <span class="icon-bar"></span>
 		            </button>
-		            <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+		            <a class="navbar-brand" href="index.php">Employee Recognition Awards</a>
 		        </div>
 		        <div id="navbar" class="navbar-collapse collapse">
 		            <ul class="nav navbar-nav navbar-right">

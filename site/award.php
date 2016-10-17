@@ -24,12 +24,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+            <a class="navbar-brand" href="index.php">Employee Recognition Awards</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="userAccount.php">User: JoeSmith25</a></li>
-                <li><a href="login.php">Logout</a></li>
+                <li><a href="index.php">Logout</a></li>
             </ul>
         </div>
     </div>

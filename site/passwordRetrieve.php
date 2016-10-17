@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+            <a class="navbar-brand" href="index.php">Employee Recognition Awards</a>
         </div>
 
     </div>
@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="login.php">Return to Login Page <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="index.php">Return to Login Page <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
 

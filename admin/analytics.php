@@ -3,6 +3,10 @@ require_once("dbconfig.php");
 
 //Turn on error reporting
 ini_set('display_errors', 'On');
+
+//Access current session
+session_start();
+
 //Connects to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){
@@ -131,31 +135,31 @@ if($mysqli->connect_errno){
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Employee Recognition Awards</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sign out</a></li>
-          </ul>
-          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">consectetur</a></p>
-        </div>
-      </div>
-    </nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container-fluid">
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+		            <ul class="nav navbar-nav navbar-right">
+		                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+		                <li><a href="logout.php">Logout</a></li>
+		            </ul>
+		        </div>
+		    </div>
+		</nav>
 
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="index.php">Users <span class="sr-only">(current)</span></a></li>
+            <li><a href="users.php">Users <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="#">Analytics</a></li>
             <li><a href="data.php">Data</a></li>
           </ul>

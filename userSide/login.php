@@ -52,9 +52,11 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
 
         //Redirect to main user page
         if($account_type == "admin") {
-          header('Location: ../admin/');
+          header('Location: ../admin/users.php');
+          exit();
         } else {
           header('Location: generateAward.php');
+          exit();
         }
     }
 
@@ -98,12 +100,6 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         </form>
 
         <a href="passwordRetrieve.php">I forgot my password</a>
-        <br>
-        <br>
-
-        <br>
-        <a href="adminHome.php">Temp Admin Login</a>
-
 
     </div>
 

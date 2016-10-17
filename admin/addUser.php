@@ -1,3 +1,54 @@
+<?php
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
+//Access current session
+session_start();
+
+require_once("dbconfig.php");
+
+//If the required fields are filled out, add to DB and return to User admin
+// TODO add signature file check
+if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['password']) & isset($_POST['state'])) {
+        
+    //Connects to the database
+    $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+    if($mysqli->connect_errno){
+      echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+    }
+    
+    //Set usertype correctly: regular is 1 and admin is 2
+    if($_POST['type'] === "regular") {
+      if(!($stmt = $mysqli->prepare("INSERT INTO award_user (first_name, last_name, email, act_id, password, state) VALUES (?, ?, ?, 1, ?, ?);"))){
+      	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+      }
+      
+      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state']))){
+      	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
+      }
+    }
+    if($_POST['type'] === "admin") {
+      if(!($stmt = $mysqli->prepare("INSERT INTO award_user (first_name, last_name, email, act_id, password, state) VALUES (?, ?, ?, 2, ?, ?);"))){
+      	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+      }
+      
+      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state']))){
+      	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
+      }
+    } // end insert
+    
+    if(!$stmt->execute()){
+    	echo "Execute failed: " . $stmt->errno . " " . $stmt->error;
+    } else {
+      $stmt->close();
+      header('Location: users.php');
+      exit();
+    }
+    $stmt->close();
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,30 +85,30 @@
   <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Employee Recognition Awards</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sign out</a></li>
-          </ul>
-          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">consectetur</a></p>
-        </div>
-      </div>
     </nav>
 
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="index.php">Users <span class="sr-only">(current)</span></a></li>
+            <li><a href="users.php">Users <span class="sr-only">(current)</span></a></li>
             <li><a href="analytics.php">Analytics</a></li>
             <li><a href="data.php">Data</a></li>
           </ul>
@@ -65,14 +116,14 @@
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Add User</h1>
 
-            <form class="form-horizontal" action="index.php" method="post">
+            <form class="form-horizontal" action="addUser.php" method="post">
 
                 <div class="form-group">
                     <label class="control-label col-sm-2">Account Type:</label>
                     <div class="col-sm-8">
 
                         <div class="radio">
-                            <label><input type="radio" name="type" value="user" required>Regular User</label>
+                            <label><input type="radio" name="type" value="regular" required>Regular User</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" name="type" value="admin" required>Administrator</label>
@@ -83,35 +134,35 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2">First Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="first_name" placeholder="First Name" required>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
                     </div>
                 </div>
 
 								<div class="form-group">
                     <label class="control-label col-sm-2">Last Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="last_name" placeholder="Last Name" required>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
                     </div>
                 </div>
 								
 								<div class="form-group">
 										<label class="control-label col-sm-2">E-mail:</label>
 										<div class="col-sm-10">
-												<input type="email" class="form-control" id="email" placeholder="E-mail" required>
+												<input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
 										</div>
 								</div>
 
 								<div class="form-group">
 										<label class="control-label col-sm-2">Password:</label>
 										<div class="col-sm-10">
-												<input type="password" class="form-control" id="password" placeholder="Password" required>
+												<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 										</div>
 								</div>
 
 								<div class="form-group">
 										<label class="control-label col-sm-2">State:</label>
 										<div class="col-sm-10">
-											<select id="state" class="form-control" required>
+											<select id="state" name="state" class="form-control" required>
 												<option value="Alabama">Alabama</option>
 												<option value="Alaska">Alaska</option>
 												<option value="Arizona">Arizona</option>
@@ -165,11 +216,12 @@
 											</select>
 										</div>
 								</div>
-								
+
+								<!-- TODO signature file upload -->
 								<div class="form-group">
 										<label class="control-label col-sm-2">Signature (PNG):</label>
 										<div class="col-sm-10">
-											<input id="signature" class="form-control" type="file">
+											<input id="signature" name="signature" class="form-control" type="file" accept=".png">
 										</div>
 								</div>
 

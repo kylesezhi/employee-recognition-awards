@@ -60,7 +60,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Employee Recognition Awards - Add User</title>
+    <title>Employee Recognition Awards - Edit User</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -93,7 +93,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="users.php">Employee Recognition Awards</a>
+                <a class="navbar-brand" href="generateAward.php">Employee Recognition Awards</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -114,7 +114,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
           </ul>
         </div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Add User</h1>
+            <h1 class="page-header">Edit User</h1>
 
             <form class="form-horizontal" action="addUser.php" method="post">
 

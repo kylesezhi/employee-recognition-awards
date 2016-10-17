@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">Employee Recognition Awards</a>
+            <a class="navbar-brand" href="generateAward.php">Employee Recognition Awards</a>
         </div>
 
     </div>

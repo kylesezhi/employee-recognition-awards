@@ -5,6 +5,15 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+//Enforce the correct user type
+if($_SESSION['account_type'] === "regular") {
+	header('Location: generateAward.php');
+	exit();
+} else if($_SESSION['account_type'] !== "admin") {
+	header('Location: index.php');
+	exit();
+}
+
 require_once("dbconfig.php");
 
 //Connects to the database
@@ -15,13 +24,13 @@ if($mysqli->connect_errno){
 
 //If we are updating, do the update
 // TODO add signature file check
-if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['password']) & isset($_POST['state']) & isset($_POST['id'])) {
-    
+if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['password']) & isset($_POST['state']) & isset($_POST['id'])) {
+    // echo "<script type='text/javascript'>alert('WE GOt HERE');</script>"; //DEBUG
     if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, password = ?, state = ? WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }
     
-    if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state']))){
+    if(!($stmt->bind_param("sssssi",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state'],$_POST['id']))){
     	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
     }
     

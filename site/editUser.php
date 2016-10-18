@@ -24,13 +24,13 @@ if($mysqli->connect_errno){
 
 //If we are updating, do the update
 // TODO add signature file check
-if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['password']) & isset($_POST['state']) & isset($_POST['id'])) {
+if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['state']) & isset($_POST['id'])) {
     // echo "<script type='text/javascript'>alert('WE GOt HERE');</script>"; //DEBUG
-    if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, password = ?, state = ? WHERE id = ?;"))){
+    if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, state = ? WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }
     
-    if(!($stmt->bind_param("sssssi",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state'],$_POST['id']))){
+    if(!($stmt->bind_param("ssssi",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['state'],$_POST['id']))){
     	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
     }
     
@@ -93,7 +93,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="generateAward.php">Employee Recognition Awards</a>
+                <a class="navbar-brand" href="users.php">Employee Recognition Awards</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -171,7 +171,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 								<div class="form-group">
 										<label class="control-label col-sm-2">Password:</label>
 										<div class="col-sm-10">
-												<input type="password" class="form-control" id="password" name="password" value="<?php echo $password; ?>" placeholder="Password" required>
+												<button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Reset password</button>
 										</div>
 								</div>
 

@@ -7,12 +7,14 @@ ini_set('display_errors', 'On');
 session_start();
 
 //Enforce the correct user type
-if($_SESSION['account_type'] === "regular") {
-	header('Location: generateAward.php');
-	exit();
-} else if($_SESSION['account_type'] === "admin") {
-	header('Location: users.php');
-	exit();
+if(isset($_SESSION['account_type'])) {
+	if($_SESSION['account_type'] === "regular") {
+		header('Location: generateAward.php');
+		exit();
+	} else if($_SESSION['account_type'] === "admin") {
+		header('Location: users.php');
+		exit();
+	}
 }
 
 //Database information

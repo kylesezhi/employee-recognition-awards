@@ -7,6 +7,15 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+//Enforce the correct user type
+if($_SESSION['account_type'] === "regular") {
+	header('Location: generateAward.php');
+	exit();
+} else if($_SESSION['account_type'] !== "admin") {
+	header('Location: index.php');
+	exit();
+}
+
 //Connects to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){

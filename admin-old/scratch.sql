@@ -65,3 +65,6 @@ SET act_id=(
    WHERE title="regular"
 )
 WHERE id=552;
+
+-- from myPhpAdmin
+UPDATE `award_user` SET `first_name` = 'Lyle' WHERE `award_user`.`id` = 552

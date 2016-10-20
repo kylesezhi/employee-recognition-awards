@@ -1,16 +1,18 @@
 <?php
+/*  bolero-web3 CS'419 F'16
+** project group: Candis Pike, Shaun Sluman, Kyle Bedell
+*/
     include "latexFill.php";
+    include "dbconfig.php";
             
    function texCert ($awardID){
          //connect to database - host, username, pass, db
-        $db = new mysqli('localhost','root','','bolero_web3');
+        $db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
     
          if ($db ->connect_error){
                die (" ERROR Could not connect to database. Please try again later. ". $db->conenct_error());
          }
-         echo "success"; 
-         echo "</br>";
-           
+                 
          //get award info from awardID
          $query= "SELECT id, first_name, last_name, user_id, class_id, award_date, email FROM award where id = ?";
          $stmt = $db->prepare($query);
@@ -18,7 +20,7 @@
          $stmt->execute();
          $stmt-> bind_result($aID, $fname, $lname, $uID, $cID, $da, $email);
          $stmt-> fetch();
-         printf("%d %s %s %d %d %s %s <br>", $aID, $fname, $lname, $uID,$cID, $da, $email);
+         //printf("%d %s %s %d %d %s %s <br>", $aID, $fname, $lname, $uID,$cID, $da, $email);
          $stmt->close();
                   
         //get award_user from user_id
@@ -28,7 +30,7 @@
          $stmt2->execute();
          $stmt2-> bind_result($fname2, $lname2, $sig);
          $stmt2-> fetch();
-         printf("%s %s <br>", $fname2, $lname2);
+         //printf("%s %s <br>", $fname2, $lname2);
          $stmt2->close();
          
         //save signature to a temp file
@@ -44,27 +46,26 @@
          $stmt3->execute();
          $stmt3-> bind_result($title);
          $stmt3-> fetch();
-         printf("%s <br>", $title);
+         //printf("%s <br>", $title);
          $stmt3->close();
          
         //close db 
         $db->close();
-        echo "</br>";
-        echo "closed </br>";
-         
-       //seperate date by month, day ,year
+             
+       //seperate date by month, day ,year and restring
         $year = substr($da, 0,4);
         $month = getMonth(substr($da, 5,2));
         $day = substr ($da, 8,2); 
         $date = $month ." ". $day . ", " . $year;
-        printf("%s, %s, %s, %s <br>", $year, $month, $day, $date);
+        //printf("%s, %s, %s, %s <br>", $year, $month, $day, $date);
          
-       //input data into .tex - data needs to be in an array - get back temp file name
+       //input data into .tex - data needs to be in an array 
         $recName = $fname . " " . $lname;
         $giveName = $fname2 . " " . $lname2;
         $tmpTex = $aID . "cert.tex";
-        echo $tmpTex; 
-
+        $tmpAux = $aID ."cert.aux";
+        $tmpLog = $aID. "cert.log";
+      
         $data = [
            "recName" => $recName,
            "giveName" => $giveName,
@@ -73,16 +74,26 @@
            "sig" => $tmpsig
            ];
         
+		//call function to crete the filled tex
         latexFill($data, 'template.tex', $tmpTex);
         
         //create pdf
-        
+		echo "</br>";
+	    $cmd = "/usr/bin/pdflatex ".$tmpTex;
+	    exec($cmd, $output, $error);
+		exec($cmd, $output, $error);
+		if ($error > 0){
+			die ("Error cretaing pdf. Please, try again later.");
+		}
+	                     
         //send pdf
        
         //delete temp files
-        //unlink ($tmpsig);
-        //unlink ($tmpTex);
-   }
+        unlink ($tmpsig);
+        unlink ($tmpTex);
+        unlink ($tmpAux);
+        unlink ($tmpLog);
+	}
    
    function getMonth ($month){
      if ($month === "01"){

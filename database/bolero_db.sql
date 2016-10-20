@@ -1,5 +1,7 @@
 CREATE DATABASE bolero_web3;
 
+USE bolero_web3;
+
 CREATE TABLE `act_type`(
 `id` int AUTO_INCREMENT NOT NULL,
 `title` varchar(25) NOT NULL,

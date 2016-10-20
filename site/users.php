@@ -1,13 +1,26 @@
 <?php 
-require("dbconfig.php");
+require_once("dbconfig.php");
 
 //Turn on error reporting
 ini_set('display_errors', 'On');
+
+//Access current session
+session_start();
+
+//Enforce the correct user type
+if($_SESSION['account_type'] === "regular") {
+	header('Location: generateAward.php');
+	exit();
+} else if($_SESSION['account_type'] !== "admin") {
+	header('Location: index.php');
+	exit();
+}
+
 //Connects to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-	}
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,25 +58,25 @@ if($mysqli->connect_errno){
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Employee Recognition Awards</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sign out</a></li>
-          </ul>
-          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">consectetur</a></p>
-        </div>
-      </div>
-    </nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		    <div class="container-fluid">
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="#">Employee Recognition Awards</a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+		            <ul class="nav navbar-nav navbar-right">
+		                <li><a href="users.php">User: <?php echo $_SESSION["username"] ?></a></li>
+		                <li><a href="logout.php">Logout</a></li>
+		            </ul>
+		        </div>
+		    </div>
+		</nav>
 
     <div class="container-fluid">
       <div class="row">
@@ -122,7 +135,7 @@ if($mysqli->connect_errno){
 									if($type == "regular") echo "User";
 									else echo "Admin";
 									echo "</td>";
-                  echo "<td class=\"edit\"><button type=\"button\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></td>";
+                  echo "<td class=\"edit\"><form method=\"post\" action=\"editUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></form></td>";
                   echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
                   echo "</tr>";
                 }

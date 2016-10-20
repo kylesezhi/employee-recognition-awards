@@ -20,6 +20,8 @@ session_start();
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles -->
     <link href="dashboard.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <link href="awardform.css" rel="stylesheet">
 
 </head>
 <body>
@@ -33,7 +35,7 @@ session_start();
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="login.php">Employee Recognition Awards</a>
+            <a class="navbar-brand" href="generateAward.php">Employee Recognition Awards</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">

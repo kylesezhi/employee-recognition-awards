@@ -48,3 +48,23 @@ GROUP BY AU.state;
 
 SELECT * from award A
 INNER JOIN class CL ON CL.id = A.class_id;
+
+
+-- for editUser form 
+SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title
+FROM award_user AU 
+INNER JOIN act_type ACT ON ACT.id = AU.act_id;
+
+-- for editUser do
+UPDATE award_user SET first_name = ?, last_name = ?, email = ?, state = ?, created = ? 
+WHERE id = ?
+
+UPDATE award_user
+SET act_id=(
+   SELECT id FROM act_type
+   WHERE title="regular"
+)
+WHERE id=552;
+
+-- from myPhpAdmin
+UPDATE `award_user` SET `first_name` = 'Lyle' WHERE `award_user`.`id` = 552

@@ -6,6 +6,17 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+//Enforce the correct user type
+if(isset($_SESSION['account_type'])) {
+	if($_SESSION['account_type'] === "regular") {
+		header('Location: generateAward.php');
+		exit();
+	} else if($_SESSION['account_type'] === "admin") {
+		header('Location: users.php');
+		exit();
+	}
+}
+
 //Database information
 require "dbconfig.php";
 
@@ -23,7 +34,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
     $password = $_POST['inputPassword'];
 
     //Prepare SELECT statement to check if username and password match found in database
-    if(!($stmt = $mysqli->prepare("SELECT id, act_id FROM award_user WHERE email=? AND password=?"))){
+    if(!($stmt = $mysqli->prepare("SELECT AU.id, ACT.title FROM award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE AU.email=? AND AU.password=?"))){
         echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }
 
@@ -46,12 +57,18 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
     else {
         //Save session variables
         $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user_id;
+        $_SESSION['account_type'] = $account_type;
 
         $stmt->close();
 
         //Redirect to main user page
-        header('Location: generateAward.php');
+        if($account_type == "admin") {
+          header('Location: users.php');
+          exit();
+        } else {
+          header('Location: generateAward.php');
+          exit();
+        }
     }
 
     $stmt->close();
@@ -84,7 +101,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
             <p class="lead">Recognize the efforts and achievements of your employees!</p>
         </div>
 
-        <form class="form-signin" action="login.php" method="post">
+        <form class="form-signin" action="index.php" method="post">
             <h2 class="form-signin-heading">Login:</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
@@ -94,12 +111,6 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         </form>
 
         <a href="passwordRetrieve.php">I forgot my password</a>
-        <br>
-        <br>
-
-        <br>
-        <a href="adminHome.php">Temp Admin Login</a>
-
 
     </div>
 

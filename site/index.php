@@ -58,6 +58,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         //Save session variables
         $_SESSION['username'] = $username;
         $_SESSION['account_type'] = $account_type;
+        $_SESSION['user_id'] = $user_id;
 
         $stmt->close();
 

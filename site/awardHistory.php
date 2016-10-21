@@ -5,6 +5,15 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+//Database information
+require "dbconfig.php";
+
+//Connect to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+    echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -59,38 +68,59 @@ session_start();
 
             <table class="table table-hover">
                 <thead>
-                    <th>Award Name</th>
-                    <th>Award Recipient</th>
-                    <th>Award Date</th>
+                <th>Award Name</th>
+                <th>Award Recipient</th>
+                <th>Award Date</th>
 
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Employee of the Month</td>
-                        <td>Fred Johnson</td>
-                        <td>09/30/2015</td>
-                        <td><a href="#" class="btn btn-info" role="button">View Award</a></td>
-                    </tr>
-                    <tr>
-                        <td>Most Sales of 2015</td>
-                        <td>Sarah Fredrickson</td>
-                        <td>12/31/2015</td>
-                        <td><a href="#" class="btn btn-info" role="button">View Award</a></td>
-                    </tr>
-                    <tr>
-                        <td>Best Halloween Costume</td>
-                        <td>Eddie Tucker</td>
-                        <td>10/31/2015</td>
-                        <td><a href="#" class="btn btn-info" role="button">View Award</a></td>
-                    </tr>
-                    <tr>
-                        <td>Employee of the Year</td>
-                        <td>Bill Jones</td>
-                        <td>12/31/2015</td>
-                        <td><a href="#" class="btn btn-info" role="button">View Award</a></td>
-                    </tr>
+
+                <?php
+                //Prepare SELECT statement to get award history data
+                if(!($stmt = $mysqli->prepare("SELECT a.first_name, a.last_name, a.award_date, a.id, c.title FROM award a INNER JOIN class c ON a.class_id = c.id INNER JOIN award_user au ON a.user_id = au.id WHERE au.id = ?;"))){
+                    echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+                }
+
+                //Bind parameters
+                $stmt->bind_param("s", $_SESSION["user_id"]);
+
+                //Execute the SELECT statement
+                if(!$stmt->execute()){
+                    echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+
+                //Bind results to variables
+                if(!$stmt->bind_result($recipient_first_name, $recipient_last_name, $award_date, $award_id, $award_title)){
+                    echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                }
+
+                //Go through each row of returned results and build table
+                while($stmt->fetch()){
+
+                    echo "<tr>";
+                    echo "<td>" . $award_title . "</td>";
+                    echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
+                    echo "<td>" . $award_date . "</td>";
+                    echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                    echo "</tr>";
+                }
+
+                //Close mySQL statement
+                $stmt->close();
+
+                ?>
                 </tbody>
             </table>
+
+
+
+
+
+
+
+
+
+
 
 
         </div>

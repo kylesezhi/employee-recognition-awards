@@ -1,3 +1,21 @@
+<?php
+//Turn on error reporting
+ini_set('display_errors', 'On');
+
+//Access current session
+session_start();
+
+//Database information
+require "dbconfig.php";
+
+//Connect to the database
+$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
+if($mysqli->connect_errno){
+    echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +46,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="userAccount.php">User: JoeSmith25</a></li>
-                <li><a href="index.php">Logout</a></li>
+                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -46,15 +64,100 @@
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">View Award</h1>
+            <h1 class="page-header">Award Sent Confirmation</h1>
 
             <?php
 
             $awardTitle = $_POST['awardTitle'];
             $customTitle = $_POST['customAwardTitle'];
-            $recipientName = $_POST['recipientNameInput'];
+            $recipientFirstName = $_POST['recipientFirstNameInput'];
+            $recipientLastName = $_POST['recipientLastNameInput'];
             $recipientEmail = $_POST['recipientEmailInput'];
             $awardDate = $_POST['awardDateInput'];
+            $awardClassID = "";
+            $awardID = "";
+
+            /* Get class ID for award title */
+            //Prepare SELECT statement
+            if(!($stmt = $mysqli->prepare("SELECT c.id FROM class c WHERE c.title = ?;"))){
+                echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+            }
+
+            //Bind parameters
+            if ($awardTitle == "customTitle") {
+                $stmt->bind_param("s", $customTitle);
+
+            }
+            else {
+                $stmt->bind_param("s", $awardTitle);
+            }
+
+            //Execute the SELECT statement
+            if(!$stmt->execute()){
+                echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+            }
+
+            //Bind results to variables
+            if(!$stmt->bind_result($awardClassID)){
+                echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+            }
+
+            //If no result, no class ID for this award title yet, so insert new record for this title
+            if(!$stmt->fetch()){
+
+                //Prepare INSERT statement
+                if(!($stmt2 = $mysqli->prepare("INSERT INTO class (title) VALUES (?)"))){
+                    echo "Prepare failed: "  . $stmt2->errno . " " . $stmt2->error;
+                }
+
+                //Bind values to variables
+                if ($awardTitle == "customTitle") {
+                    if(!($stmt2->bind_param("s",$customTitle))){
+                        echo "Bind failed: "  . $stmt2->errno . " " . $stmt2->error;
+                    }
+                }
+                else {
+                    if(!($stmt2->bind_param("s",$awardTitle))){
+                        echo "Bind failed: "  . $stmt2->errno . " " . $stmt2->error;
+                    }
+                }
+
+                //Execute the INSERT statement
+                if(!$stmt2->execute()){
+                    echo "Execute failed: "  . $stmt2->errno . " " . $stmt2->error;
+                }
+                //Save ID of new class
+                else {
+                    $awardClassID = $stmt2->insert_id;
+                }
+
+                $stmt2->close();
+            }
+
+            $stmt->close();
+
+            //Insert new award record
+            if(!($stmt = $mysqli->prepare("INSERT INTO award (user_id, class_id, first_name, last_name, email, award_date) VALUES (?,?,?,?,?,?)"))){
+                echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+            }
+
+            //Bind the values to variables
+            if(!($stmt->bind_param("iissss", $_SESSION["user_id"], $awardClassID, $recipientFirstName, $recipientLastName, $recipientEmail, $awardDate))){
+                echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
+            }
+
+            //Execute the INSERT statement
+            if(!$stmt->execute()){
+                echo "Execute failed: "  . $stmt->errno . " " . $stmt->error;
+            }
+            //Save ID of new award
+            else {
+                $awardID = $stmt->insert_id;
+            }
+
+
+
+            echo '<p>ID of New Award: ' . $awardID . '</p>';
 
             if ($awardTitle == "customTitle") {
                 echo '<p>Award Title: ' . $customTitle . '</p>';
@@ -64,9 +167,13 @@
                 echo '<p>Award Title: ' . $awardTitle . '</p>';
             }
 
-            echo '<p>Recipient Name: ' . $recipientName . '</p>';
+            echo '<p>Recipient First Name: ' . $recipientFirstName . '</p>';
+            echo '<p>Recipient Last Name: ' . $recipientLastName . '</p>';
             echo '<p>Recipient Email: ' . $recipientEmail . '</p>';
             echo '<p>Award Date: ' . $awardDate . '</p>';
+
+
+            //Call texCert to generate award here?
 
             ?>
 

@@ -79,9 +79,16 @@ session_start();
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" id="recipientNameInput">Recipient Name:</label>
+                    <label class="control-label col-sm-2" id="recipientFirstNameInput">Recipient First Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="recipientNameInput" name="recipientNameInput" placeholder="Recipient Name">
+                        <input type="text" class="form-control" id="recipientFirstNameInput" name="recipientFirstNameInput" placeholder="Recipient First Name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" id="recipientLastNameInput">Recipient Last Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="recipientLastNameInput" name="recipientLastNameInput" placeholder="Recipient Last Name">
                     </div>
                 </div>
 

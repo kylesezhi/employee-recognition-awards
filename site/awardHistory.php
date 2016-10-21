@@ -64,16 +64,7 @@ if($mysqli->connect_errno){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Award History</h1>
 
-            <p>You've created and sent the following awards:</p>
 
-            <table class="table table-hover">
-                <thead>
-                <th>Award Name</th>
-                <th>Award Recipient</th>
-                <th>Award Date</th>
-
-                </thead>
-                <tbody>
 
                 <?php
                 //Prepare SELECT statement to get award history data
@@ -94,34 +85,46 @@ if($mysqli->connect_errno){
                     echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
                 }
 
-                //Go through each row of returned results and build table
-                while($stmt->fetch()){
+                if(!$stmt->fetch()) {
+                    echo "<p>You haven't created any awards yet. Give it a try!</p>";
+                    echo "<a href='generateAward.php' class='btn btn-info' role='button'>Generate Award</a>";
+                }
 
+                //Build table showing awards previously created by this user
+                else {
+                    echo "<p>You've created and sent the following awards:</p>";
+                    echo "<table class='table table-hover'>";
+                    echo "<thead>";
+                    echo "<th>Award Name</th>";
+                    echo "<th>Award Recipient</th>";
+                    echo "<th>Award Date</th>";
+                    echo "</thead>";
+                    echo "<tbody>";
                     echo "<tr>";
                     echo "<td>" . $award_title . "</td>";
                     echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                     echo "<td>" . $award_date . "</td>";
                     echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
                     echo "</tr>";
+
+                    //Fill remaining rows if any
+                    while($stmt->fetch()){
+                        echo "<tr>";
+                        echo "<td>" . $award_title . "</td>";
+                        echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
+                        echo "<td>" . $award_date . "</td>";
+                        echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</tbody>";
+                    echo "</table>";
                 }
 
                 //Close mySQL statement
                 $stmt->close();
 
                 ?>
-                </tbody>
-            </table>
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
     </div>

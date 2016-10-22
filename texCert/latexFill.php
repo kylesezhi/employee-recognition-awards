@@ -1,13 +1,23 @@
 <?php
-//code snippets 1from https://mike42.me/blog/how-to-generate-professional-quality-pdf-files-from-php
+/*  bolero-web3 CS'419 F'16
+** project group: Candis Pike, Shaun Sluman, Kyle Bedell
+** code snippets ideas from https://mike42.me/blog/how-to-generate-professional-quality-pdf-files-from-php
+*/
+
+ ini_set('display_errors', 'On');
 
 function latexFill ($data, $template, $tmpFile){
+	//check if template exists and has data
+	//if (!file_exists($template)){
+		//die "Template file does not exist. Please, contact support.";
+	//}
     //open template, insert data, save to temp file
-    ob_start();
+	ob_start();
     include ($template);
     file_put_contents($tmpFile, ob_get_clean());
 }
 
+//need for latex template. latex uses specific characters for commands. this will make sure that commmands work
 function sani($text){
   // Prepare backslash/newline handling
     $text = str_replace("\n", "\\\\", $text); // Rescue newlines
@@ -18,28 +28,13 @@ function sani($text){
     // Symbols which are used in LaTeX syntax
     $text = str_replace("{", "\\{", $text);
     $text = str_replace("}", "\\}", $text);
-    $text = str_replace("$", "\\$", $text);
-    $text = str_replace("&", "\\&", $text);
-    $text = str_replace("#", "\\#", $text);
     $text = str_replace("^", "\\textasciicircum{}", $text);
     $text = str_replace("_", "\\_", $text);
     $text = str_replace("~", "\\textasciitilde{}", $text);
-    $text = str_replace("%", "\\%", $text);
 	
-     // Brackets & pipes
-    $text = str_replace("<", "\\textless{}", $text);
-    $text = str_replace(">", "\\textgreater{}", $text);
-    $text = str_replace("|", "\\textbar{}", $text);
-	
-    // Quotes
-    $text = str_replace("\"", "\\textquotedbl{}", $text);
-    $text = str_replace("'", "\\textquotesingle{}", $text);
-    $text = str_replace("`", "\\textasciigrave{}", $text);
-
     // Clean up backslashes from before
     $text = str_replace("\\\\", "\\textbackslash{}", $text); // Substitute backslashes from first step.
     $text = str_replace("\n", "\\\\", trim($text)); // Replace newlines (trim is in case of leading \\)
     return $text;
 }
 ?>
-

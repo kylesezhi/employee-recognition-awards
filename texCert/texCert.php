@@ -2,9 +2,13 @@
 /*  bolero-web3 CS'419 F'16
 ** project group: Candis Pike, Shaun Sluman, Kyle Bedell
 */
+
+	include "dbconfig.php";
     include "latexFill.php";
-    include "dbconfig.php";
-            
+	include "sendPDF.php";
+	ini_set('display_errors', 'On');
+   
+	            
    function texCert ($awardID){
          //connect to database - host, username, pass, db
         $db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
@@ -20,7 +24,6 @@
          $stmt->execute();
          $stmt-> bind_result($aID, $fname, $lname, $uID, $cID, $da, $email);
          $stmt-> fetch();
-         //printf("%d %s %s %d %d %s %s <br>", $aID, $fname, $lname, $uID,$cID, $da, $email);
          $stmt->close();
                   
         //get award_user from user_id
@@ -30,7 +33,6 @@
          $stmt2->execute();
          $stmt2-> bind_result($fname2, $lname2, $sig);
          $stmt2-> fetch();
-         //printf("%s %s <br>", $fname2, $lname2);
          $stmt2->close();
          
         //save signature to a temp file
@@ -38,15 +40,20 @@
          $file = fopen ($tmpsig, "w");
          fwrite($file, $sig);
          fclose($file);
-                 
-         //get award type
+		 
+		 //if file is empty use default
+		 if (filesize($tmpsig) ==0)
+		 {
+			copy ("./img/csk.png", $tmpsig);
+		 }
+		 
+	    //get award type
          $query3 = "SELECT title FROM class WHERE id = ?";
          $stmt3 = $db->prepare($query3);
          $stmt3->bind_param("i", $cID);
          $stmt3->execute();
          $stmt3-> bind_result($title);
          $stmt3-> fetch();
-         //printf("%s <br>", $title);
          $stmt3->close();
          
         //close db 
@@ -57,15 +64,15 @@
         $month = getMonth(substr($da, 5,2));
         $day = substr ($da, 8,2); 
         $date = $month ." ". $day . ", " . $year;
-        //printf("%s, %s, %s, %s <br>", $year, $month, $day, $date);
-         
+               
        //input data into .tex - data needs to be in an array 
         $recName = $fname . " " . $lname;
         $giveName = $fname2 . " " . $lname2;
         $tmpTex = $aID . "cert.tex";
         $tmpAux = $aID ."cert.aux";
         $tmpLog = $aID. "cert.log";
-      
+		$tmpPDF = $aID. "cert.pdf";
+		      
         $data = [
            "recName" => $recName,
            "giveName" => $giveName,
@@ -78,21 +85,27 @@
         latexFill($data, 'template.tex', $tmpTex);
         
         //create pdf
-		echo "</br>";
-	    $cmd = "/usr/bin/pdflatex ".$tmpTex;
+		$cmd = "/usr/bin/pdflatex ".$tmpTex;
 	    exec($cmd, $output, $error);
-		exec($cmd, $output, $error);
 		if ($error > 0){
 			die ("Error cretaing pdf. Please, try again later.");
 		}
-	                     
-        //send pdf
-       
-        //delete temp files
+		
+	   	//send pdf
+	
+		sendPDF ($email, $tmpPDF, $data);
+	   
+	   //view pdf
+	   //header("Content-type:application/pdf");
+	   //header('Content-Disposition:inline;filename="'. basename($tmpPDF) .'"');
+       //readfile($tmpPDF);
+		
+		//delete temp files
         unlink ($tmpsig);
         unlink ($tmpTex);
         unlink ($tmpAux);
         unlink ($tmpLog);
+		//unlink ($tmpPDF);
 	}
    
    function getMonth ($month){

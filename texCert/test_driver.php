@@ -1,5 +1,6 @@
 <?php
     include "texCert.php";
-    
-    texCert (199);
+  
+	$id = $_POST["id"];
+	texCert ($id);
 ?>

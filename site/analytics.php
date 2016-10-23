@@ -21,6 +21,18 @@ $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 	}
+	
+if(!isset($_GET['first']) && !isset($_GET['second'])){
+	$_GET['first'] = 'Awards';
+	$_GET['second'] = 'Region';
+}
+if(!isset($_GET['second'])){
+	$_GET['second'] = '';
+}
+
+
+require_once("analyticsMenu.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -176,7 +188,8 @@ if($mysqli->connect_errno){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
-          <div class="">
+					<?php makeMenu($_GET['first'], $_GET['second']); ?>
+          <!-- <div class="">
             <div class="btn-group">
               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Awards <span class="caret"></span>
@@ -196,7 +209,7 @@ if($mysqli->connect_errno){
                 <li><a href="#">Time</a></li>
               </ul>
             </div>
-          </div>
+          </div> -->
           
           <div id="regions_div" style="height: 400px;"></div>
           

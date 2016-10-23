@@ -25,7 +25,6 @@ if($mysqli->connect_errno){
 //If we are updating, do the update
 // TODO add signature file check
 if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['state']) & isset($_POST['id'])) {
-    // echo "<script type='text/javascript'>alert('WE GOt HERE');</script>"; //DEBUG
     if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, state = ? WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }

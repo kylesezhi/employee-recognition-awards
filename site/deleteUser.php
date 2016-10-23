@@ -24,13 +24,12 @@ if($mysqli->connect_errno){
 
 //If we are updating, do the update
 // TODO add signature file check
-if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['state']) & isset($_POST['id'])) {
-    // echo "<script type='text/javascript'>alert('WE GOt HERE');</script>"; //DEBUG
-    if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, state = ? WHERE id = ?;"))){
+if (isset($_POST['deleteConfirmed'])) {
+    if(!($stmt = $mysqli->prepare("DELETE FROM award_user WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }
     
-    if(!($stmt->bind_param("ssssi",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['state'],$_POST['id']))){
+    if(!($stmt->bind_param("i",$_POST['id']))){
     	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
     }
     
@@ -131,8 +130,9 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
             while($stmt->fetch()){
             ?>
 
-            <form class="form-horizontal" action="editUser.php" method="post">
+            <form class="form-horizontal" action="deleteUser.php" method="post">
             <input type="hidden" name="id" value="<?php echo $id; ?>">
+            <input type="hidden" name="deleteConfirmed" value="1">
 
                 <div class="form-group">
                     <label class="control-label col-sm-2">Account Type:</label>

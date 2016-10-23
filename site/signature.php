@@ -30,6 +30,7 @@ if($image) {
   echo $image;
 } else {
   header("Content-type: image/png");
+  echo file_get_contents("img_not_available.png");
 }
 
 ?>

@@ -136,7 +136,7 @@ if($mysqli->connect_errno){
 									else echo "Admin";
 									echo "</td>";
                   echo "<td class=\"edit\"><form method=\"post\" action=\"editUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></form></td>";
-                  echo "<td class=\"delete\"><button type=\"button\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></td>";
+                  echo "<td class=\"delete\"><form method=\"post\" action=\"deleteUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></form></td>";
                   echo "</tr>";
                 }
                 $stmt->close();

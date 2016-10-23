@@ -60,7 +60,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Employee Recognition Awards - Edit User</title>
+    <title>Employee Recognition Awards - Delete User</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -114,7 +114,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
           </ul>
         </div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Edit User</h1>
+            <h1 class="page-header">Delete User</h1>
             <?php
             if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title FROM award_user AU INNER JOIN act_type ACT ON ACT.id = AU.act_id WHERE AU.id = ?;"))){
               echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
@@ -150,35 +150,28 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
                 <div class="form-group">
                     <label class="control-label col-sm-2">First Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $first_name ?>" placeholder="First Name" required>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $first_name ?>" placeholder="First Name" disabled>
                     </div>
                 </div>
 
 								<div class="form-group">
                     <label class="control-label col-sm-2">Last Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $last_name ?>" placeholder="Last Name" required>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $last_name ?>" placeholder="Last Name" disabled>
                     </div>
                 </div>
 								
 								<div class="form-group">
 										<label class="control-label col-sm-2">E-mail:</label>
 										<div class="col-sm-10">
-												<input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>" placeholder="E-mail" required>
-										</div>
-								</div>
-
-								<div class="form-group">
-										<label class="control-label col-sm-2">Password:</label>
-										<div class="col-sm-10">
-												<button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Reset password</button>
+												<input type="email" class="form-control" id="email" name="email" value="<?php echo $email; ?>" placeholder="E-mail" disabled>
 										</div>
 								</div>
 
 								<div class="form-group">
 										<label class="control-label col-sm-2">State:</label>
 										<div class="col-sm-10">
-											<select id="state" name="state" class="form-control" required>
+											<select id="state" name="state" class="form-control" disabled>
 												<option value="Alabama"<?php if($state === "Alabama") echo " selected"; ?>>Alabama</option>
 												<option value="Alaska"<?php if($state === "Alaska") echo " selected"; ?>>Alaska</option>
 												<option value="Arizona"<?php if($state === "Arizona") echo " selected"; ?>>Arizona</option>
@@ -237,13 +230,13 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 								<div class="form-group">
 										<label class="control-label col-sm-2">Signature (PNG):</label>
 										<div class="col-sm-10">
-											<input id="signature" name="signature" class="form-control" type="file" accept=".png">
+											<img src="signature.php?id=<?php echo $id; ?>" />
 										</div>
 								</div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-lg btn-primary ">Submit</button>
+                        <button type="submit" class="btn btn-lg btn-danger ">Delete</button>
                     </div>
                 </div>
             </form>
@@ -257,7 +250,6 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
       </div>
     </div>
 		
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

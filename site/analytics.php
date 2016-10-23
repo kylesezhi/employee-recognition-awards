@@ -68,7 +68,7 @@ if($mysqli->connect_errno){
             echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
           }
           while($stmt->fetch()){
-            if($state != 'District of Columbia') {
+            if($state != 'Idaho') {
               echo "['" . $state . "', " . $awards . "],";
             }
           }

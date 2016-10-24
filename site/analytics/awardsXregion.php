@@ -73,7 +73,6 @@ function makeChart($first, $second, $mysqli) {
       }
       while($stmt->fetch()){
         $data[$state] = $awards;
-        // echo "['" . $state . "', " . $awards . "],";
       }
       $stmt->close();
       foreach($data as $key => $value) {

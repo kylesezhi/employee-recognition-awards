@@ -49,4 +49,6 @@ function drawBasic() {
   </script>
 <?php
 }
+function makeTable($first, $second, $mysqli) {
+}
 ?>

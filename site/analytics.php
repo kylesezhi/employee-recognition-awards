@@ -102,78 +102,10 @@ if(!isset($_GET['second'])){
           
           <!-- PAGE CONTENT -->
 					<?php makeMenu($_GET['first'], $_GET['second'], $menuItems); ?>
-          <!-- <div class="">
-            <div class="btn-group">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Awards <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Users</a></li>
-              </ul>
-            </div>
-            BY
-            <div class="btn-group">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Region <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">User</a></li>
-                <li><a href="#">Date</a></li>
-                <li><a href="#">Time</a></li>
-              </ul>
-            </div>
-          </div> -->
           
           <div id="container_div" style="height: 400px;"></div>
           
-          <!-- <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>State</th>
-                  <th>Awards sent</th>
-                  <th>User created</th>
-                  <th>Signature</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
-
+					<?php makeTable($_GET['first'], $_GET['second'], $mysqli); ?>
 
         </div>
         <!-- END PAGE CONTENT -->

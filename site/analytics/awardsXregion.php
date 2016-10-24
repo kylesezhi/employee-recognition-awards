@@ -95,4 +95,49 @@ function makeChart($first, $second, $mysqli) {
 </script>
 <?php
 }
+
+function makeTable($first, $second, $mysqli) {
+  ?>
+  <!--  -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Sender</th>
+          <th>Recipient</th>
+          <th>Award</th>
+          <th>Date</th>
+          <th>State</th>
+        </tr>
+      </thead>
+      <tbody>
+<?php 
+if(!($stmt = $mysqli->prepare("SELECT A.id, award_date, CONCAT(A.first_name, ' ', A.last_name) as recipient, CONCAT(AU.first_name, ' ', AU.last_name) as sender, state, C.title as award FROM award A INNER JOIN award_user AU ON A.user_id = AU.id INNER JOIN class C ON A.class_id = C.id;"))){
+  echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
+}
+if(!$stmt->execute()){
+  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+if(!$stmt->bind_result($id, $date, $recipient, $sender, $state, $award)){
+  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
+}
+while($stmt->fetch()){
+  ?><tr><?php
+  echo "<td>" . $id . "</td>";
+  echo "<td>" . $sender . "</td>";
+  echo "<td>" . $recipient . "</td>";
+  echo "<td>" . $award . "</td>";
+  echo "<td>" . $date . "</td>";
+  echo "<td>" . $state . "</td>";
+  ?></tr><?php
+}
+$stmt->close();
+ ?>
+      </tbody>
+    </table>
+  </div>
+  <?php
+}
+
 ?>

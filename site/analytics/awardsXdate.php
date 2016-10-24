@@ -31,9 +31,6 @@ function drawBasic() {
         }
         $stmt->close();
         ?>
-
-        // [new Date(1980,2,19), 1],
-        // [new Date(1980,2,20), 2],
       ]);
 
       var options = {
@@ -44,6 +41,7 @@ function drawBasic() {
       vAxis: {
         title: 'Awards',
       },
+      colors: ['#F0CB35']
       };
 
       var chart = new google.visualization.ColumnChart(

@@ -27,11 +27,6 @@ function drawBasic() {
       }
       $stmt->close();
       ?>
-      // 
-      // ['Los Angeles, CA', 3792000, 'color: #C02425'],
-      // ['Chicago, IL', 2695000, 'color: #C02425'],
-      // ['Houston, TX', 2099000, 'color: #C02425'],
-      // ['Philadelphia, PA', 1526000, 'color: #C02425']
     ]);
 
     var options = {

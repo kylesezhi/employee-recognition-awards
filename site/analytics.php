@@ -20,18 +20,18 @@ if($_SESSION['account_type'] === "regular") {
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-	}
+}
+	
+require_once("analyticsMenu.php");
 	
 if(!isset($_GET['first']) && !isset($_GET['second'])){
 	$_GET['first'] = 'Awards';
 	$_GET['second'] = 'Region';
 }
 if(!isset($_GET['second'])){
-	$_GET['second'] = '';
+	$_GET['second'] = $menuItems[$_GET['first']][0];
 }
 
-
-require_once("analyticsMenu.php");
 
 ?>
 
@@ -80,9 +80,7 @@ require_once("analyticsMenu.php");
             echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
           }
           while($stmt->fetch()){
-            if($state != 'Idaho') {
-              echo "['" . $state . "', " . $awards . "],";
-            }
+            echo "['" . $state . "', " . $awards . "],";
           }
           $stmt->close();
           ?>
@@ -188,7 +186,7 @@ require_once("analyticsMenu.php");
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
           <!-- PAGE CONTENT -->
-					<?php makeMenu($_GET['first'], $_GET['second']); ?>
+					<?php makeMenu($_GET['first'], $_GET['second'], $menuItems); ?>
           <!-- <div class="">
             <div class="btn-group">
               <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

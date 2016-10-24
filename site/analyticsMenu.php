@@ -1,7 +1,7 @@
 <?php 
-function makeMenu($first, $second) {
-  $menuItems = ['Awards' => ['Region', 'User', 'Date', 'Time'], 'Users' => ['Region', 'User', 'Time']];
-  if ($second == '') $second = $menuItems[$first][0];
+$menuItems = ['Awards' => ['Region', 'User', 'Date', 'Time'], 'Users' => ['Region', 'Date', 'Time']];
+
+function makeMenu($first, $second, $menuItems) {
   ?>
   <div class="">
     <div class="btn-group">

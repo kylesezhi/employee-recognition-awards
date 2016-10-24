@@ -8,8 +8,8 @@
 	include "sendPDF.php";
 	ini_set('display_errors', 'On');
    
-	            
-   function texCert ($awardID){
+	//type is used as a switch to view the pdf or to send it depending on page user is on            
+   function texCert ($awardID, $type = "e"){
          //connect to database - host, username, pass, db
         $db = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
     
@@ -81,7 +81,7 @@
            "sig" => $tmpsig
            ];
         
-		//call function to crete the filled tex
+		//call function to create the filled tex
         latexFill($data, 'template.tex', $tmpTex);
         
         //create pdf
@@ -90,15 +90,18 @@
 		if ($error > 0){
 			die ("Error cretaing pdf. Please, try again later.");
 		}
-		
-	   	//send pdf
-	
-		sendPDF ($email, $tmpPDF, $data);
-	   
-	   //view pdf
-	   //header("Content-type:application/pdf");
-	   //header('Content-Disposition:inline;filename="'. basename($tmpPDF) .'"');
-       //readfile($tmpPDF);
+
+		//send or view
+	   if ($type = "e"){
+		   	//send pdf
+			sendPDF ($email, $tmpPDF, $data);	  
+	   }
+	   else {
+			//view pdf
+			header("Content-type:application/pdf");
+			header('Content-Disposition:inline;filename="'. basename($tmpPDF) .'"');
+			readfile($tmpPDF);
+	   }
 		
 		//delete temp files
         unlink ($tmpsig);
@@ -142,7 +145,7 @@
       else if ($month === "11"){
          return "November";
      }
-      else {
+      else if ($month ==="12"){
          return "December";
      }
  }

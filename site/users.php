@@ -41,10 +41,7 @@ if($mysqli->connect_errno){
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
-		
-    <!-- Custom styles for List.js -->
-    <link href="list.css" rel="stylesheet">
-		
+
 		<!-- Font Awesome -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
@@ -53,7 +50,42 @@ if($mysqli->connect_errno){
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-				
+
+		<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.charts.load('current', {'packages':['table']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawTable);
+      
+    function drawTable() {
+      var jsonData = $.ajax({
+          url: "analytics/getUsers.php",
+          dataType: "json",
+          async: false
+          }).responseText;
+          
+      var options = {
+        width: '100%', 
+        page: 'enable',
+        pageSize: 15,
+        allowHtml: true,
+      };
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(jsonData);
+
+      // Instantiate and draw our chart, passing in some options.
+      var table = new google.visualization.Table(document.getElementById('container_div'));
+
+      table.draw(data, options);
+    }
+
+    </script>
+
   </head>
 
   <body>
@@ -94,72 +126,14 @@ if($mysqli->connect_errno){
             <div class="pull-right"><a href="addUser.php" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</a></div>
         </div>
           <h2 class="sub-header">Users</h2>
-          <div class="table-responsive" id="users">
-						<input class="search form-control" placeholder="Search" />
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th><button class="sort asc" data-sort="id">ID</button></th>
-                  <th><button class="sort" data-sort="first_name">First name</th>
-                  <th><button class="sort" data-sort="last_name">Last name</th>
-                  <th><button class="sort" data-sort="email">Email</th>
-                  <th><button class="sort" data-sort="state">State</th>
-                  <th><button class="sort" data-sort="awards">Awards</th>
-                  <th><button class="sort" data-sort="created">Created</th>
-                  <th><button class="sort" data-sort="type">Type</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody class="list">
-                <?php
-                if(!($stmt = $mysqli->prepare("SELECT AU.first_name, AU.last_name, AU.email, AU.state, AU.id, AU.created, ACT.title, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;"))){
-                  echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
-                }
-                if(!$stmt->execute()){
-                  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-                }
-                if(!$stmt->bind_result($first_name, $last_name, $email, $state, $id, $created, $type, $awards)){
-                  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-                }
-                while($stmt->fetch()){
-                  echo "<tr>";
-                  echo "<td class=\"id\">" . $id . "</td>";
-                  echo "<td class=\"first_name\">" . $first_name . "</td>";
-                  echo "<td class=\"last_name\">" . $last_name . "</td>";
-                  echo "<td class=\"email\">" . $email . "</td>";
-                  echo "<td class=\"state\">" . $state . "</td>";
-                  echo "<td class=\"awards\">" . $awards . "</td>";
-                  echo "<td class=\"created\">" . $created . "</td>";
-                  echo "<td class=\"type\">"; 
-									if($type == "regular") echo "User";
-									else echo "Admin";
-									echo "</td>";
-                  echo "<td class=\"edit\"><form method=\"post\" action=\"editUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-primary btn-sm\"><span class=\"glyphicon glyphicon-edit\" aria-hidden=\"true\"></span> Edit</button></form></td>";
-                  echo "<td class=\"delete\"><form method=\"post\" action=\"deleteUser.php\"><input type=\"hidden\" name=\"id\" value=\"" . $id . "\"><button href=\"#\" class=\"btn btn-danger btn-sm\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span> Delete</button></form></td>";
-                  echo "</tr>";
-                }
-                $stmt->close();
-                ?>
-              </tbody>
-            </table>
-          </div>
+          <div id="container_div"></div>
+					<!-- END PAGE CONTENT -->
         </div>
-        <!-- END PAGE CONTENT -->
+        
         
       </div>
     </div>
 		
-		<!-- List.js for sorting/searching the table -->
-		<!-- Learn more at: http://www.listjs.com/examples/table -->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
-		<script type="text/javascript">
-		var options = {
-			valueNames: [ 'id', 'first_name', 'last_name', 'email', 'state', 'awards', 'created', 'type' ]
-		};
-
-		var userList = new List('users', options);
-		</script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

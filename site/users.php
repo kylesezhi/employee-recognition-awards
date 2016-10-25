@@ -54,36 +54,76 @@ if($mysqli->connect_errno){
 		<!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript">
-    
-    // Load the Visualization API and the piechart package.
-    google.charts.load('current', {'packages':['table']});
-      
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawTable);
-      
-    function drawTable() {
-      var jsonData = $.ajax({
-          url: "analytics/getUsers.php",
-          dataType: "json",
-          async: false
-          }).responseText;
-          
-      var options = {
-        width: '100%', 
-        page: 'enable',
-        pageSize: 15,
-        allowHtml: true,
-      };
-      // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(jsonData);
+		<script type="text/javascript">
+    google.charts.load('current', { packages: ['controls'] });
+    google.charts.setOnLoadCallback(drawVisualization);
 
-      // Instantiate and draw our chart, passing in some options.
-      var table = new google.visualization.Table(document.getElementById('container_div'));
+    function drawVisualization() {
+        // Prepare the data
+        var jsonData = $.ajax({
+            url: "analytics/getUsers.php",
+            dataType: "json",
+            async: false
+            }).responseText;
+        
+        var data = new google.visualization.DataTable(jsonData);
 
-      table.draw(data, options);
+        // create a list of columns for the dashboard
+        var columns = [{
+            // this column aggregates all of the data into one column
+            // for use with the string filter
+            type: 'string',
+            calc: function (dt, row) {
+                for (var i = 0, vals = [], cols = dt.getNumberOfColumns(); i < cols; i++) {
+                    vals.push(dt.getFormattedValue(row, i));
+                }
+                return vals.join('\n');
+            }
+        }];
+        
+        for (var i = 0, cols = data.getNumberOfColumns(); i < cols; i++) {
+            columns.push(i);
+        }
+        
+        // Define a string filter for all columns
+        var filter = new google.visualization.ControlWrapper({
+            controlType: 'StringFilter',
+            containerId: 'filter_div',
+            options: {
+                filterColumnIndex: 0,
+                matchType: 'any',
+                caseSensitive: false,
+                ui: {
+                    label: 'Search:'
+                }
+            },
+            view: {
+                columns: columns
+            }
+        });
+        
+        // Options for table
+        var options = {
+          width: '100%', 
+          page: 'enable',
+          pageSize: 14,
+          allowHtml: true,
+        };
+        
+        // Define table
+        var table = new google.visualization.ChartWrapper({
+            chartType: 'Table',
+            containerId: 'container_div',
+            options,
+            view: {
+                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // TODO
+            }
+        });
+        
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+        dashboard.bind([filter], [table]);
+        dashboard.draw(data);
     }
-
     </script>
 
   </head>
@@ -126,6 +166,9 @@ if($mysqli->connect_errno){
             <div class="pull-right"><a href="addUser.php" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add user</a></div>
         </div>
           <h2 class="sub-header">Users</h2>
+					
+					<!-- <input class="search form-control" placeholder="Search" /> -->
+					<div id="filter_div"></div>
           <div id="container_div"></div>
 					<!-- END PAGE CONTENT -->
         </div>

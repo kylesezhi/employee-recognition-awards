@@ -1,0 +1,46 @@
+\documentclass[pdftex,20pt,a4paper] {extarticle}
+\usepackage{setspace}
+\usepackage[x11names]{xcolor}
+\usepackage{chancery}
+\usepackage{textcomp}
+\usepackage[landscape, margin=0.85in]{geometry}
+\usepackage{graphicx}
+
+% ideas from https://mike42.me/blog/how-to-generate-professional-quality-pdf-files-from-php
+
+% fill in data
+% <?php echo "\n"."\\newcommand{\\recName}{". sani($data['recName']) . "}\n"; ?>
+% <?php echo "\n"."\\newcommand{\\giveName}{". sani($data['giveName']) . "}\n"; ?>
+% <?php echo "\n"."\\newcommand{\\dateAward}{". sani($data['dateAward']) . "}\n"; ?>
+% <?php echo "\n"."\\newcommand{\\titleAward}{". sani($data['titleAward']) . "}\n"; ?>
+% <?php echo "\n"."\\newcommand{\\sig}{". sani($data['sig']) . "}\n"; ?>
+
+\begin {document}
+\pagenumbering{gobble}
+\clearpage
+\noindent\begin{minipage}{\linewidth}
+	\begin{center}	
+		\includegraphics[scale=.65]{./img/logo}
+	\begin{spacing}{2.5}
+		{\Huge \titleAward{}}
+		\\
+		Presented to 
+		\\
+		{\huge \recName{}}
+	\end{spacing}
+		for outstanding performance, service, and dedication.
+	\end{center}
+		\begin{minipage}[c]{0.50\textwidth}
+			    \center\dateAward{}
+		\end{minipage}
+	\begin{minipage}[c]{0.5\textwidth}
+		\begin{center}
+		\begin{spacing}{0.5}
+		\includegraphics{\sig}
+		\\
+		\giveName{}
+		\end{spacing}
+		\end{center}
+	\end{minipage}	
+\end{minipage}
+\end {document}

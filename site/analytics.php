@@ -22,7 +22,7 @@ if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 	
-require_once("analyticsMenu.php");
+require_once("analytics/menu.php");
 	
 if(!isset($_GET['first']) && !isset($_GET['second'])){
 	$_GET['first'] = 'Awards';
@@ -60,96 +60,11 @@ if(!isset($_GET['second'])){
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('upcoming', {'packages': ['geochart']});
-      google.charts.setOnLoadCallback(drawUSMap);
-      
-      function drawUSMap() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['State','Awards'],
-          <?php
-          if(!($stmt = $mysqli->prepare("SELECT AU.state, COUNT(CL.id) AS 'AwardCount' FROM award_user AU INNER JOIN award A ON A.user_id = AU.id INNER JOIN class CL ON CL.id = A.class_id GROUP BY AU.state ORDER BY AU.state;"))){
-            echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
-          }
-          if(!$stmt->execute()){
-            echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-          }
-          if(!$stmt->bind_result($state, $awards)){
-            echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-          }
-          while($stmt->fetch()){
-            echo "['" . $state . "', " . $awards . "],";
-          }
-          $stmt->close();
-          ?>
-          
-          // ['Alabama', 0],
-          // ['Alaska', 0],
-          // ['Arizona', 50],
-          // ['Arkansas', 0],
-          // ['California', 0],
-          // ['Colorado', 0],
-          // ['Connecticut', 50],
-          // ['Delaware', 0],
-          // ['Florida', 0],
-          // ['Georgia', 60],
-          // ['Hawaii', 0],
-          // ['Idaho', 0],
-          // ['Illinois', 30],
-          // ['Indiana', 0],
-          // ['Iowa', 0],
-          // ['Kansas', 70],
-          // ['Kentucky', 0],
-          // ['Louisiana', 30],
-          // ['Maine', 0],
-          // ['Maryland', 0],
-          // ['Massachusetts', 20],
-          // ['Michigan', 0],
-          // ['Minnesota', 0],
-          // ['Mississippi', 0],
-          // ['Missouri', 0],
-          // ['Montana', 0],
-          // ['Nebraska', 0],
-          // ['Nevada', 0],
-          // ['New Hampshire', 0],
-          // ['New Jersey', 0],
-          // ['New Mexico', 0],
-          // ['New York', 0],
-          // ['North Carolina', 0],
-          // ['North Dakota', 0],
-          // ['Ohio', 0],
-          // ['Oklahoma', 0],
-          // ['Oregon', 0],
-          // ['Pennsylvania', 0],
-          // ['Rhode Island', 0],
-          // ['South Carolina', 0],
-          // ['South Dakota', 0],
-          // ['Tennessee', 0],
-          // ['Texas', 0],
-          // ['Utah', 0],
-          // ['Vermont', 0],
-          // ['Virginia', 0],
-          // ['Washington', 0],
-          // ['West Virginia', 0],
-          // ['Wisconsin', 0],
-          // ['Wyoming', 0]
-        ]);
-
-        var options = {
-          region: "US", 
-          resolution: "provinces",
-          colorAxis: {colors: ['#F48023', '#F25621', '#93191B']},
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-        chart.draw(data, options);
-      }
-      
-      var chart = new google.visualization.GeoChart(container);
-    </script>
-    
+    <?php 
+		// imports file in analytics directory with the name "$first X $second .php"
+		require_once('analytics/'. strtolower($_GET['first']) . 'X' . strtolower($_GET['second']) . '.php');
+		makeChart($_GET['first'], $_GET['second'], $mysqli);
+		?>
   </head>
 
   <body>
@@ -187,78 +102,10 @@ if(!isset($_GET['second'])){
           
           <!-- PAGE CONTENT -->
 					<?php makeMenu($_GET['first'], $_GET['second'], $menuItems); ?>
-          <!-- <div class="">
-            <div class="btn-group">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Awards <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Users</a></li>
-              </ul>
-            </div>
-            BY
-            <div class="btn-group">
-              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Region <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a href="#">User</a></li>
-                <li><a href="#">Date</a></li>
-                <li><a href="#">Time</a></li>
-              </ul>
-            </div>
-          </div> -->
           
-          <div id="regions_div" style="height: 400px;"></div>
+          <div id="container_div" style="height: 400px;"></div>
           
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>State</th>
-                  <th>Awards sent</th>
-                  <th>User created</th>
-                  <th>Signature</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td><button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+					<?php makeTable($_GET['first'], $_GET['second'], $mysqli); ?>
 
         </div>
         <!-- END PAGE CONTENT -->

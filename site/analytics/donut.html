@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', { packages: ['controls'] });
+    google.charts.setOnLoadCallback(drawVisualization);
+
+    function drawVisualization() {
+        // Prepare the data
+        var jsonData = $.ajax({
+            url: "getUsers.php",
+            dataType: "json",
+            async: false
+            }).responseText;
+        
+        var data = new google.visualization.DataTable(jsonData);
+
+        // create a list of columns for the dashboard
+        var columns = [{
+            // this column aggregates all of the data into one column
+            // for use with the string filter
+            type: 'string',
+            calc: function (dt, row) {
+                for (var i = 0, vals = [], cols = dt.getNumberOfColumns(); i < cols; i++) {
+                    vals.push(dt.getFormattedValue(row, i));
+                }
+                return vals.join('\n');
+            }
+        }];
+        
+        for (var i = 0, cols = data.getNumberOfColumns(); i < cols; i++) {
+            columns.push(i);
+        }
+        
+        // Define a string filter for all columns
+        var filter = new google.visualization.ControlWrapper({
+            controlType: 'StringFilter',
+            containerId: 'filter_div',
+            options: {
+                filterColumnIndex: 0,
+                matchType: 'any',
+                caseSensitive: false,
+                ui: {
+                    label: 'Search table:'
+                }
+            },
+            view: {
+                columns: columns
+            }
+        });
+        
+        // Options for table
+        var options = {
+          width: '100%', 
+          page: 'enable',
+          pageSize: 15,
+          allowHtml: true,
+        };
+        
+        // Define table
+        var table = new google.visualization.ChartWrapper({
+            chartType: 'Table',
+            containerId: 'container_div',
+            options,
+            view: {
+                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] // TODO
+            }
+        });
+        
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+        dashboard.bind([filter], [table]);
+        dashboard.draw(data);
+    }
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the dashboard-->
+    <div id="dashboard_div">
+      <!--Divs that will hold each control and chart-->
+      <div id="filter_div"></div>
+      <div id="container_div"></div>
+    </div>
+  </body>
+</html>

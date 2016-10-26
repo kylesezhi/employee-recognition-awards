@@ -19,8 +19,13 @@ INNER JOIN award A ON A.user_id = AU.id
 INNER JOIN class CL ON CL.id = A.class_id
 GROUP BY AU.state;
 
+<<<<<<< HEAD
 -- how many awards give by specific user
 SELECT A.first_name, A.last_name, A.id, CL.title FROM award A
+=======
+-- how many awards given by specific user
+SELECT A.first_name, A.last_name, CL.title FROM award A
+>>>>>>> 53c217996c38fd6d787d03b0d991dd10aa5cf62c
 INNER JOIN class CL on CL.id = A.class_id
 WHERE A.user_id = 53;
 

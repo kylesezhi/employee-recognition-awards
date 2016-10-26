@@ -20,9 +20,9 @@ INNER JOIN class CL ON CL.id = A.class_id
 GROUP BY AU.state;
 
 -- how many awards give by specific user
-SELECT A.first_name, A.last_name, CL.title FROM award A
+SELECT A.first_name, A.last_name, A.id, CL.title FROM award A
 INNER JOIN class CL on CL.id = A.class_id
-WHERE A.user_id = 151;
+WHERE A.user_id = 53;
 
 -- how many total awards
 SELECT COUNT(class_id) AS 'totalAwards' from award; 
@@ -33,7 +33,7 @@ INNER JOIN award A ON A.class_id = CL.id
 GROUP BY CL.title;
 
 -- how many awards has each user given
-SELECT AU.first_name, AU.last_name, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU
+SELECT AU.first_name, AU.last_name, COUNT(A.class_id) AS 'totalAWards' FROM award_user AU
 INNER JOIN award A ON A.user_id = AU.id
 GROUP BY AU.last_name;
 

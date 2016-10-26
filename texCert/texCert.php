@@ -65,7 +65,7 @@
         $day = substr ($da, 8,2); 
         $date = $month ." ". $day . ", " . $year;
                
-       //input data into .tex - data needs to be in an array 
+       //input data into .tex - data needs to be in an array - also used to send pdf
         $recName = $fname . " " . $lname;
         $giveName = $fname2 . " " . $lname2;
         $tmpTex = $aID . "cert.tex";
@@ -82,7 +82,8 @@
            ];
         
 		//call function to create the filled tex
-        latexFill($data, 'template.tex', $tmpTex);
+		$texTemplate = "./template/template.tex";
+        latexFill($data, $texTemplate, $tmpTex);
         
         //create pdf
 		$cmd = "/usr/bin/pdflatex ".$tmpTex;
@@ -92,11 +93,11 @@
 		}
 
 		//send or view
-	   if ($type = "e"){
+	   if ($type === "e"){
 		   	//send pdf
 			sendPDF ($email, $tmpPDF, $data);	  
 	   }
-	   else {
+	   else if ($type ==="v"){
 			//view pdf
 			header("Content-type:application/pdf");
 			header('Content-Disposition:inline;filename="'. basename($tmpPDF) .'"');
@@ -108,7 +109,7 @@
         unlink ($tmpTex);
         unlink ($tmpAux);
         unlink ($tmpLog);
-		//unlink ($tmpPDF);
+		unlink ($tmpPDF);
 	}
    
    function getMonth ($month){
@@ -149,5 +150,4 @@
          return "December";
      }
  }
-   
 ?>

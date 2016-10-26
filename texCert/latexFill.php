@@ -7,11 +7,7 @@
  ini_set('display_errors', 'On');
 
 function latexFill ($data, $template, $tmpFile){
-	//check if template exists and has data
-	//if (!file_exists($template)){
-		//die "Template file does not exist. Please, contact support.";
-	//}
-    //open template, insert data, save to temp file
+	//open template, insert data, save to temp file
 	ob_start();
     include ($template);
     file_put_contents($tmpFile, ob_get_clean());

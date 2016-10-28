@@ -34,7 +34,7 @@
         'legend': {'position': 'none'},
         'height': 400,
       },
-      'view': {'columns': [2, 3]}, // TODO
+      'view': {'columns': [2, 4]}, // TODO
     });
     
     // Options for table
@@ -49,6 +49,7 @@
         chartType: 'Table',
         containerId: 'table_div',
         options,
+        'view': {'columns': [0, 1, 3, 4]},
     });
     
     // create a list of columns for the dashboard

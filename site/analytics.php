@@ -32,7 +32,6 @@ if(!isset($_GET['second'])){
 	$_GET['second'] = $menuItems[$_GET['first']][0];
 }
 
-
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +62,8 @@ if(!isset($_GET['second'])){
     <?php 
 		// imports file in analytics directory with the name "$first X $second .php"
 		require_once('analytics/'. strtolower($_GET['first']) . 'X' . strtolower($_GET['second']) . '.php');
-		makeChart($_GET['first'], $_GET['second'], $mysqli);
+		// makeChart($_GET['first'], $_GET['second'], $mysqli);
+		
 		?>
   </head>
 
@@ -102,10 +102,21 @@ if(!isset($_GET['second'])){
           
           <!-- PAGE CONTENT -->
 					<?php makeMenu($_GET['first'], $_GET['second'], $menuItems); ?>
+					
+					<!--Div that will hold the dashboard-->
+			    <div id="dashboard_div" style="width: 100%;">
+			      <!--Divs that will hold each control and chart-->
+			      <div id="chart_div"></div>
+						<div class="form-group">
+				      <div id="filter_div1"></div>
+				      <div id="filter_div2"></div>
+						</div>
+				      <div id="table_div"></div>
+			    </div>
+					
+          <!-- <div id="chart_div" style="height: 400px;"></div> -->
           
-          <div id="container_div" style="height: 400px;"></div>
-          
-					<?php makeTable($_GET['first'], $_GET['second'], $mysqli); ?>
+          <!-- <div id="table_div" style="height: 400px;"></div> -->
 
         </div>
         <!-- END PAGE CONTENT -->

@@ -56,9 +56,9 @@ if($mysqli->connect_errno){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript">
     google.charts.load('current', { packages: ['controls'] });
-    google.charts.setOnLoadCallback(drawVisualization);
+    google.charts.setOnLoadCallback(drawDashboard);
 
-    function drawVisualization() {
+    function drawDashboard() {
         // Prepare the data
         var jsonData = $.ajax({
             url: "analytics/getUsers.php",

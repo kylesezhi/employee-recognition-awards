@@ -1,143 +1,90 @@
-<?php
-function makeChart($first, $second, $mysqli) {
-  $data = [];
-  $data['Alabama'] = 0;
-  $data['Alaska'] = 0;
-  $data['Arizona'] = 0;
-  $data['Arkansas'] = 0;
-  $data['California'] = 0;
-  $data['Colorado'] = 0;
-  $data['Connecticut'] = 0;
-  $data['Delaware'] = 0;
-  $data['Florida'] = 0;
-  $data['Georgia'] = 0;
-  $data['Hawaii'] = 0;
-  $data['Idaho'] = 0;
-  $data['Illinois'] = 0;
-  $data['Indiana'] = 0;
-  $data['Iowa'] = 0;
-  $data['Kansas'] = 0;
-  $data['Kentucky'] = 0;
-  $data['Louisiana'] = 0;
-  $data['Maine'] = 0;
-  $data['Maryland'] = 0;
-  $data['Massachusetts'] = 0;
-  $data['Michigan'] = 0;
-  $data['Minnesota'] = 0;
-  $data['Mississippi'] = 0;
-  $data['Missouri'] = 0;
-  $data['Montana'] = 0;
-  $data['Nebraska'] = 0;
-  $data['Nevada'] = 0;
-  $data['New Hampshire'] = 0;
-  $data['New Jersey'] = 0;
-  $data['New Mexico'] = 0;
-  $data['New York'] = 0;
-  $data['North Carolina'] = 0;
-  $data['North Dakota'] = 0;
-  $data['Ohio'] = 0;
-  $data['Oklahoma'] = 0;
-  $data['Oregon'] = 0;
-  $data['Pennsylvania'] = 0;
-  $data['Rhode Island'] = 0;
-  $data['South Carolina'] = 0;
-  $data['South Dakota'] = 0;
-  $data['Tennessee'] = 0;
-  $data['Texas'] = 0;
-  $data['Utah'] = 0;
-  $data['Vermont'] = 0;
-  $data['Virginia'] = 0;
-  $data['Washington'] = 0;
-  $data['West Virginia'] = 0;
-  $data['Wisconsin'] = 0;
-  $data['Wyoming'] = 0;
-?>
+<!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-  google.charts.load('upcoming', {'packages': ['geochart']});
-  google.charts.setOnLoadCallback(drawUSMap);
-  
-  function drawUSMap() {
 
-    var data = google.visualization.arrayToDataTable([
-      ['State','Awards'],
-      <?php
-      if(!($stmt = $mysqli->prepare("SELECT AU.state, COUNT(CL.id) AS 'AwardCount' FROM award_user AU INNER JOIN award A ON A.user_id = AU.id INNER JOIN class CL ON CL.id = A.class_id GROUP BY AU.state ORDER BY AU.state;"))){
-        echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
-      }
-      if(!$stmt->execute()){
-        echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-      }
-      if(!$stmt->bind_result($state, $awards)){
-        echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-      }
-      while($stmt->fetch()){
-        $data[$state] = $awards;
-      }
-      $stmt->close();
-      foreach($data as $key => $value) {
-        echo "['" . $key . "', " . $value . "],";
-      }
-      ?>
-    ]);
+  // Load the Visualization API and the controls package.
+  google.charts.load('current', {'packages':['geochart', 'controls']});
 
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawDashboard);
+
+  // Callback that creates and populates a data table,
+  // instantiates a dashboard, a range slider and a pie chart,
+  // passes in the data and draws it.
+  function drawDashboard() {
+
+    // Prepare the data
+    var jsonData = $.ajax({
+        url: "analytics/getAwardRegions.php",
+        dataType: "json",
+        async: false
+        }).responseText;
+    
+    var data = new google.visualization.DataTable(jsonData);
+
+    // Create a dashboard.
+    var dashboard = new google.visualization.Dashboard(
+        document.getElementById('dashboard_div'));
+
+    // Create a range slider, passing some options
+    var stateFilter = new google.visualization.ControlWrapper({
+      'controlType': 'CategoryFilter',
+      'containerId': 'filter_div1',
+      'options': {
+        'filterColumnLabel': 'State',
+        'filterColumnIndex': 0,
+            'ui': {
+              'caption': 'Choose a state ...',
+              'allowTyping': false,
+              // 'cssClass': 'form-control',
+            }
+      }
+    });
+
+    // Create a pie chart, passing some options
+    var chart = new google.visualization.ChartWrapper({
+      'chartType': 'GeoChart',
+      'containerId': 'chart_div',
+      'options': {
+        'region': 'US',
+        'resolution': 'provinces',
+        'height': 400,
+        'colorAxis': {'colors': ['#F0CB35', '#C02425']},
+      }
+    });
+    
+    // Options for table
     var options = {
-      region: "US", 
-      resolution: "provinces",
-      colorAxis: {colors: ['#F0CB35', '#C02425']},
+      width: '100%', 
+      page: 'enable',
+      pageSize: 5,
+      allowHtml: true,
     };
+    
+    var table = new google.visualization.ChartWrapper({
+        chartType: 'Table',
+        containerId: 'table_div',
+        options,
+    });
 
-    var chart = new google.visualization.GeoChart(document.getElementById('container_div'));
-    chart.draw(data, options);
+    // Create a range slider, passing some options
+    var awardsRangeSlider = new google.visualization.ControlWrapper({
+      'controlType': 'NumberRangeFilter',
+      'containerId': 'filter_div2',
+      'options': {
+        'filterColumnLabel': 'Awards'
+      }
+    });
+
+    // Establish dependencies, declaring that 'filter' drives 'chart',
+    // so that the pie chart will only display entries that are let through
+    // given the chosen slider range.
+    dashboard.bind([awardsRangeSlider, stateFilter], table);
+    dashboard.bind([awardsRangeSlider, stateFilter], chart);
+    // dashboard.bind(stateFilter, table);
+    // dashboard.bind(stateFilter, chart);
+
+    // Draw the dashboard.
+    dashboard.draw(data);
   }
-  
-  var chart = new google.visualization.GeoChart(container);
 </script>
-<?php
-}
-
-function makeTable($first, $second, $mysqli) {
-  ?>
-  <!--  -->
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Sender</th>
-          <th>Recipient</th>
-          <th>Award</th>
-          <th>Date</th>
-          <th>State</th>
-        </tr>
-      </thead>
-      <tbody>
-<?php 
-if(!($stmt = $mysqli->prepare("SELECT A.id, award_date, CONCAT(A.first_name, ' ', A.last_name) as recipient, CONCAT(AU.first_name, ' ', AU.last_name) as sender, state, C.title as award FROM award A INNER JOIN award_user AU ON A.user_id = AU.id INNER JOIN class C ON A.class_id = C.id;"))){
-  echo "Prepare failed: " . $stmt->errno . " " . $stmt->error;
-}
-if(!$stmt->execute()){
-  echo "Execute failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-}
-if(!$stmt->bind_result($id, $date, $recipient, $sender, $state, $award)){
-  echo "Bind failed: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-}
-while($stmt->fetch()){
-  ?><tr><?php
-  echo "<td>" . $id . "</td>";
-  echo "<td>" . $sender . "</td>";
-  echo "<td>" . $recipient . "</td>";
-  echo "<td>" . $award . "</td>";
-  echo "<td>" . $date . "</td>";
-  echo "<td>" . $state . "</td>";
-  ?></tr><?php
-}
-$stmt->close();
- ?>
-      </tbody>
-    </table>
-  </div>
-  <?php
-}
-
-?>

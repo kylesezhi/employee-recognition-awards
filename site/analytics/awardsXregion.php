@@ -15,7 +15,7 @@
 
     // Prepare the data
     var jsonData = $.ajax({
-        url: "analytics/getAwardRegions.php",
+        url: "analytics/getAwardsXRegion.php",
         dataType: "json",
         async: false
         }).responseText;
@@ -36,6 +36,7 @@
             'ui': {
               'caption': 'Choose a state ...',
               'allowTyping': false,
+              'selectedValuesLayout': 'below',
               // 'cssClass': 'form-control',
             }
       }
@@ -81,8 +82,6 @@
     // given the chosen slider range.
     dashboard.bind([awardsRangeSlider, stateFilter], table);
     dashboard.bind([awardsRangeSlider, stateFilter], chart);
-    // dashboard.bind(stateFilter, table);
-    // dashboard.bind(stateFilter, chart);
 
     // Draw the dashboard.
     dashboard.draw(data);

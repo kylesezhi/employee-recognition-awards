@@ -107,9 +107,11 @@ if(!isset($_GET['second'])){
 			    <div id="dashboard_div" style="width: 100%;">
 			      <!--Divs that will hold each control and chart-->
 			      <div id="chart_div"></div>
-						<div class="form-group">
-				      <div id="filter_div1"></div>
-				      <div id="filter_div2"></div>
+						<div class="row well">
+				      <div class="col-md-3" id="filter_div1"></div>
+				      <div class="col-md-3" id="filter_div2"></div>
+				      <div class="col-md-3" id="filter_div3"></div>
+				      <div class="col-md-3" id="filter_div4"></div>
 						</div>
 				      <div id="table_div"></div>
 			    </div>

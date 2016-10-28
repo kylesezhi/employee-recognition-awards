@@ -26,36 +26,19 @@
     var dashboard = new google.visualization.Dashboard(
         document.getElementById('dashboard_div'));
 
-    // Create a range slider, passing some options
-    // var stateFilter = new google.visualization.ControlWrapper({
-    //   'controlType': 'CategoryFilter',
-    //   'containerId': 'filter_div1',
-    //   'options': {
-    //     'filterColumnLabel': 'State',
-    //     'filterColumnIndex': 0,
-    //         'ui': {
-    //           'caption': 'Choose a state ...',
-    //           'allowTyping': false,
-    //           'selectedValuesLayout': 'below',
-    //           'format': {'fractionDigits': 0},
-    //           // 'cssClass': 'form-control',
-    //         }
-    //   }
-    // });
 
-    // Create a pie chart, passing some options
-    
     var chart = new google.visualization.ChartWrapper({
       'chartType': 'BarChart',
       'containerId': 'chart_div',
       'options': {
-        // 'legend': {'position': 'none'},
+        'legend': {'position': 'none'},
         'height': 400,
-      }
+      },
+      'view': {'columns': [2, 3]}, // TODO
     });
     
     // Options for table
-    var tableOptions = {
+    var options = {
       width: '100%', 
       page: 'enable',
       pageSize: 5,
@@ -65,13 +48,48 @@
     var table = new google.visualization.ChartWrapper({
         chartType: 'Table',
         containerId: 'table_div',
-        tableOptions,
+        options,
     });
+    
+    // create a list of columns for the dashboard
+    var columns = [{
+        // this column aggregates all of the data into one column
+        // for use with the string filter
+        type: 'string',
+        calc: function (dt, row) {
+            for (var i = 0, vals = [], cols = dt.getNumberOfColumns(); i < cols; i++) {
+                vals.push(dt.getFormattedValue(row, i));
+            }
+            return vals.join('\n');
+        }
+    }];
+    
+    for (var i = 0, cols = data.getNumberOfColumns(); i < cols; i++) {
+        columns.push(i);
+    }
+    
+    // Define a string filter for all columns
+    var searchFilter = new google.visualization.ControlWrapper({
+        controlType: 'StringFilter',
+        containerId: 'filter_div1',
+        options: {
+            filterColumnIndex: 0,
+            matchType: 'any',
+            caseSensitive: false,
+            ui: {
+                label: 'Search'
+            }
+        },
+        view: {
+            columns: columns
+        }
+    });
+
 
     // Create a range slider, passing some options
     var awardsRangeSlider = new google.visualization.ControlWrapper({
       'controlType': 'NumberRangeFilter',
-      'containerId': 'filter_div1',
+      'containerId': 'filter_div2',
       'options': {
         'filterColumnLabel': 'Awards'
       }
@@ -80,8 +98,8 @@
     // Establish dependencies, declaring that 'filter' drives 'chart',
     // so that the pie chart will only display entries that are let through
     // given the chosen slider range.
-    dashboard.bind(awardsRangeSlider, table);
-    dashboard.bind(awardsRangeSlider, chart);
+    dashboard.bind([awardsRangeSlider, searchFilter], table);
+    dashboard.bind([awardsRangeSlider, searchFilter], chart);
 
     // Draw the dashboard.
     dashboard.draw(data);

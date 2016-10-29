@@ -8,6 +8,16 @@ session_start();
 //Database information
 require "dbconfig.php";
 
+//Redirect if user not logged in, or if logged in as other type of user
+if(!isset($_SESSION['account_type'])) {
+    header('Location: index.php');
+    exit();
+}
+else if($_SESSION['account_type'] === "admin") {
+    header('Location: users.php');
+    exit();
+}
+
 //Connect to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
 if($mysqli->connect_errno){

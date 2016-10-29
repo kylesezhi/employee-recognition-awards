@@ -5,6 +5,16 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+//Redirect if user not logged in, or if logged in as other type of user
+if(!isset($_SESSION['account_type'])) {
+    header('Location: index.php');
+    exit();
+}
+else if($_SESSION['account_type'] === "admin") {
+    header('Location: users.php');
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

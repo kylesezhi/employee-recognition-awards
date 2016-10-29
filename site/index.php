@@ -1,12 +1,15 @@
 <?php
 
+//Database information
+require "dbconfig.php";
+
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
 //Access current session
 session_start();
 
-//Enforce the correct user type
+//If user already logged in, redirect to correct of site for their account type
 if(isset($_SESSION['account_type'])) {
 	if($_SESSION['account_type'] === "regular") {
 		header('Location: generateAward.php');
@@ -17,8 +20,8 @@ if(isset($_SESSION['account_type'])) {
 	}
 }
 
-//Database information
-require "dbconfig.php";
+//Boolean for whether error should be displayed (off by default)
+$errorStatus = 0;
 
 //Connect to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
@@ -26,7 +29,7 @@ if($mysqli->connect_errno){
     echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 
-//If both username and password entered in login form, set session variables
+//If both username and password entered in login form, attempt to validate credentials
 if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
 
     //Get values from form
@@ -38,6 +41,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
     }
 
+    //Bind parameters
     $stmt->bind_param("ss", $username, $password);
 
     //Execute the SELECT statement
@@ -50,8 +54,19 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
     }
 
+    //If user not found, set to display error
     if(!$stmt->fetch()){
-        echo "USER NOT IN DATABASE";
+
+        //Change boolean to error status
+        $errorStatus = 1;
+
+        //Make sure session variables not set
+        unset($_SESSION['username']);
+        unset($_SESSION['user_id']);
+        unset($_SESSION['account_type']);
+
+        //Close statement
+        $stmt->close();
     }
 
     else {
@@ -60,24 +75,21 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         $_SESSION['account_type'] = $account_type;
         $_SESSION['user_id'] = $user_id;
 
+        //Close statement
         $stmt->close();
 
-        //Redirect to main user page
+        //Redirect to appropriate page for user account type
         if($account_type == "admin") {
-          header('Location: users.php');
-          exit();
-        } else {
-          header('Location: generateAward.php');
-          exit();
+            header('Location: users.php');
+            exit();
+        }
+        else {
+            header('Location: generateAward.php');
+            exit();
         }
     }
-
-    $stmt->close();
-
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -110,6 +122,14 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
             <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>
+
+        <div class="errorMessage">
+            <?php
+            if ($errorStatus == 1) {
+                echo "<p style='color:red;'>Incorrect username or password. Please try again.</p>";
+            }
+            ?>
+        </div>
 
         <a href="passwordRetrieve.php">I forgot my password</a>
 

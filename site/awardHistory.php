@@ -115,6 +115,7 @@ if($mysqli->connect_errno){
                     echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                     echo "<td>" . $award_date . "</td>";
                     echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                    echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
                     echo "</tr>";
 
                     //Fill remaining rows if any
@@ -124,6 +125,7 @@ if($mysqli->connect_errno){
                         echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                         echo "<td>" . $award_date . "</td>";
                         echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                        echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
                         echo "</tr>";
                     }
 

@@ -70,8 +70,8 @@
       'containerId': 'filter_div1',
       'options': {
         filterColumnLabel: 'Date',
-        ui: {
-            format: 'F Y', // TODO
+        'ui': {
+          format: {pattern: "MMM d, yyyyy"}
         }
       }
     });

@@ -93,7 +93,10 @@
       'controlType': 'NumberRangeFilter',
       'containerId': 'filter_div2',
       'options': {
-        'filterColumnLabel': 'Awards'
+        'filterColumnLabel': 'Awards',
+        'ui': {
+          format: { pattern: "###,###0" }
+        },
       }
     });
 

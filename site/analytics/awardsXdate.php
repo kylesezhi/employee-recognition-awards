@@ -61,7 +61,10 @@
       'controlType': 'NumberRangeFilter',
       'containerId': 'filter_div3',
       'options': {
-        'filterColumnLabel': 'Awards'
+        'filterColumnLabel': 'Awards',
+        'ui': {
+          format: { pattern: "###,###0" }
+        },
       }
     });
     
@@ -71,7 +74,7 @@
       'options': {
         filterColumnLabel: 'Date',
         'ui': {
-          format: {pattern: "MMM d, yyyyy"}
+          format: { pattern: "MMM d, yyyyy" }
         }
       }
     });

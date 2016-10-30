@@ -65,10 +65,10 @@
       'controlType': 'DateRangeFilter',
       'containerId': 'filter_div1',
       'options': {
-        'filterColumnLabel': 'Date'
-        // 'ui': {
-        //     format: 'F jS, Y',
-        // }
+        filterColumnLabel: 'Date',
+        ui: {
+            format: 'F Y', // TODO
+        }
       }
     });
 

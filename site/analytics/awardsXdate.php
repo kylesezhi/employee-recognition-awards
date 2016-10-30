@@ -3,7 +3,7 @@
 <script type="text/javascript">
 
   // Load the Visualization API and the controls package.
-  google.charts.load('current', {'packages':['corechart', 'controls']});
+  google.charts.load('current', {'packages':['corechart', 'calendar', 'controls']});
 
   // Set a callback to run when the Google Visualization API is loaded.
   google.charts.setOnLoadCallback(drawDashboard);
@@ -28,11 +28,11 @@
 
 
     var chart = new google.visualization.ChartWrapper({
-      'chartType': 'LineChart',
+      'chartType': 'Calendar',
       'containerId': 'chart_div',
       'options': {
         'legend': {'position': 'none'},
-        'height': 400,
+        'height': 650,
       },
       // 'view': {'columns': [2, 4]}, // TODO
     });

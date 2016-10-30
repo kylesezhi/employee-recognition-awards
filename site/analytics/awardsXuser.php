@@ -28,11 +28,12 @@
 
 
     var chart = new google.visualization.ChartWrapper({
-      'chartType': 'BarChart',
+      'chartType': 'ColumnChart',
       'containerId': 'chart_div',
       'options': {
         'legend': {'position': 'none'},
         'height': 400,
+        'colors': ['#C02425'],
       },
       'view': {'columns': [2, 4]}, // TODO
     });

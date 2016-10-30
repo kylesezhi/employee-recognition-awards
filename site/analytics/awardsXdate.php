@@ -33,6 +33,10 @@
       'options': {
         'legend': {'position': 'none'},
         'height': 650,
+        // noDataPattern: {
+        //    backgroundColor: '#C02425',
+        //    color: '#F0CB35'
+        //  }
       },
       // 'view': {'columns': [2, 4]}, // TODO
     });

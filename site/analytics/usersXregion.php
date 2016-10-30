@@ -73,7 +73,10 @@
       'controlType': 'NumberRangeFilter',
       'containerId': 'filter_div2',
       'options': {
-        'filterColumnLabel': 'Users'
+        'filterColumnLabel': 'Users',
+        'ui': {
+          format: { pattern: "###,###0" }
+        },
       }
     });
 

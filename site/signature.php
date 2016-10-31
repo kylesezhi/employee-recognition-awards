@@ -1,9 +1,9 @@
 <?php
-//Turn on error reporting
-ini_set('display_errors', 'On');
-
 //include database connection
 require_once("dbconfig.php");
+
+//Turn on error reporting
+ini_set('display_errors', 'On');
 
 //Connects to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);

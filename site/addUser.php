@@ -1,4 +1,6 @@
 <?php
+require_once("dbconfig.php");
+
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
@@ -13,8 +15,6 @@ if($_SESSION['account_type'] === "regular") {
 	header('Location: index.php');
 	exit();
 }
-
-require_once("dbconfig.php");
 
 //If the required fields are filled out, add to DB and return to User admin
 // TODO add signature file check

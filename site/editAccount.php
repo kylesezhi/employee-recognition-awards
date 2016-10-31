@@ -1,4 +1,6 @@
 <?php
+require_once("dbconfig.php");
+
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
@@ -14,9 +16,6 @@ else if($_SESSION['account_type'] === "admin") {
     header('Location: users.php');
     exit();
 }
-
-//Database information
-require "dbconfig.php";
 
 //Connect to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);

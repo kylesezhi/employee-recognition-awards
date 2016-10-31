@@ -1,12 +1,11 @@
 <?php
+require_once("dbconfig.php");
+
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
 //Access current session
 session_start();
-
-//Database information
-require "dbconfig.php";
 
 //Redirect if user not logged in, or if logged in as other type of user
 if(!isset($_SESSION['account_type'])) {

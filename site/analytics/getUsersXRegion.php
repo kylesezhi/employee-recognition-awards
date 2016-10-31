@@ -21,7 +21,7 @@ while($r = mysqli_fetch_assoc($result)) {
 	$item = array();
 	 foreach ($r as $key => $value) {
 		 if ($key === 'UserCount') {
-			 $item[] = ["v" => intval($value), "f" => null];;
+			 $item[] = ["v" => intval($value), "f" => null];
 		 } else {
 			$item[] = ["v" => $value, "f" => null];
 		 }

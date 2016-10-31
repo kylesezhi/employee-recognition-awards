@@ -11,19 +11,21 @@ if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 
-$result = mysqli_query($mysqli, "SELECT AU.state, COUNT(CL.id) AS 'AwardCount' FROM award_user AU INNER JOIN award A ON A.user_id = AU.id INNER JOIN class CL ON CL.id = A.class_id GROUP BY AU.state ORDER BY AU.state;");
+$result = mysqli_query($mysqli, "SELECT AU.created, COUNT(AU.email) as 'Users' FROM award_user AU GROUP BY DATE(AU.created);");
 $output = ["cols" => [
-	["id" => "", "label" => "State", "pattern" => "", "type" => "string"],
-	["id" => "", "label" => "Awards", "pattern" => "", "type" => "number"],
+	["id" => "", "label" => "Date", "pattern" => "", "type" => "date"],
+	["id" => "", "label" => "Users", "pattern" => "", "type" => "number"],
 ]];
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$item = array();
 	 foreach ($r as $key => $value) {
-		 if ($key === 'AwardCount') {
-			 $item[] = ["v" => intval($value), "f" => null];
+		 if ($key === 'created') {
+			 $dateparts = date_parse($value);
+			 $date = date_create($value);
+			 $item[] = ["v" => "Date($dateparts[year], $dateparts[month], $dateparts[day])", "f" => date_format($date, 'F jS, Y')];
 		 } else {
-			$item[] = ["v" => $value, "f" => null];
+			 $item[] = ["v" => intval($value), "f" => null];
 		 }
 	 }
 	 $rows[] = ["c" => $item ];

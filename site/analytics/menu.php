@@ -1,5 +1,5 @@
 <?php 
-$menuItems = ['Awards' => ['Region', 'User', 'Date'], 'Users' => ['Region', 'Date', 'Time']];
+$menuItems = ['Awards' => ['Region', 'User', 'Date'], 'Users' => ['Region', 'Date']];
 
 function makeMenu($first, $second, $menuItems) {
   ?>

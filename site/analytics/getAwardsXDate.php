@@ -21,12 +21,11 @@ while($r = mysqli_fetch_assoc($result)) {
 	$item = array();
 	 foreach ($r as $key => $value) {
 		 if ($key === 'totalAwards') {
-			$item[] = ["v" => intval($value), "f" => null];;
+			$item[] = ["v" => intval($value), "f" => null];
 		 } else {
 			 $dateparts = explode("-", $value);
 			 $date = date_create($value);
-			 
-			$item[] = ["v" => "Date($dateparts[0], $dateparts[1], $dateparts[2])", "f" => date_format($date, 'F jS, Y')];
+			 $item[] = ["v" => "Date($dateparts[0], $dateparts[1], $dateparts[2])", "f" => date_format($date, 'F jS, Y')];
 		 }
 	 }
 	 $rows[] = ["c" => $item ];

@@ -8,15 +8,8 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
-//Redirect if user not logged in, or if logged in as other type of user
-if(!isset($_SESSION['account_type'])) {
-    header('Location: index.php');
-    exit();
-}
-else if($_SESSION['account_type'] === "admin") {
-    header('Location: users.php');
-    exit();
-}
+//create award
+require "texCert.php";
 
 //Connect to the database
 $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
@@ -165,8 +158,9 @@ if($mysqli->connect_errno){
                 $awardID = $stmt->insert_id;
             }
 
-
-
+			//Call texCert to generate award
+			texCert($awardID);
+						
             echo '<p>ID of New Award: ' . $awardID . '</p>';
 
             if ($awardTitle == "customTitle") {
@@ -182,10 +176,7 @@ if($mysqli->connect_errno){
             echo '<p>Recipient Email: ' . $recipientEmail . '</p>';
             echo '<p>Award Date: ' . $awardDate . '</p>';
 
-
-            //Call texCert to generate award here?
-
-            ?>
+ ?>
 
 
         </div>

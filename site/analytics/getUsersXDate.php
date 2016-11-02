@@ -23,7 +23,9 @@ while($r = mysqli_fetch_assoc($result)) {
 		 if ($key === 'created') {
 			 $dateparts = date_parse($value);
 			 $date = date_create($value);
-			 $item[] = ["v" => "Date($dateparts[year], $dateparts[month], $dateparts[day])", "f" => date_format($date, 'F jS, Y')];
+			 $m = intval($dateparts['month']) - 1; // january is 00
+			 $month_str = sprintf("%02d", $m);
+			 $item[] = ["v" => "Date($dateparts[year], $month_str, $dateparts[day])", "f" => date_format($date, 'F jS, Y')];
 		 } else {
 			 $item[] = ["v" => intval($value), "f" => null];
 		 }

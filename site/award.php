@@ -158,24 +158,27 @@ if($mysqli->connect_errno){
                 $awardID = $stmt->insert_id;
             }
 
-			//Call texCert to generate award
+			//Call texCert to generate and email award
 			texCert($awardID);
-						
-            echo '<p>ID of New Award: ' . $awardID . '</p>';
-
-            if ($awardTitle == "customTitle") {
-                echo '<p>Award Title: ' . $customTitle . '</p>';
+			
+			//Inform user of success
+			echo '<p>The ';
+			if ($awardTitle == "customTitle") {
+                echo $customTitle;
             }
-
             else {
-                echo '<p>Award Title: ' . $awardTitle . '</p>';
+                echo $awardTitle;
             }
-
-            echo '<p>Recipient First Name: ' . $recipientFirstName . '</p>';
-            echo '<p>Recipient Last Name: ' . $recipientLastName . '</p>';
-            echo '<p>Recipient Email: ' . $recipientEmail . '</p>';
-            echo '<p>Award Date: ' . $awardDate . '</p>';
-
+			echo ' Award has been sent to ' . $recipientFirstName . ' ' . $recipientLastName . ' at ' . $recipientEmail . '</p>';
+			
+			//Display button that can be clicked to view the award
+			echo
+				"<form action='viewAward.php' method='post' target='_blank'>
+					<input type='hidden' name='id' value='" . $awardID . "'/>
+					<div class='form-group'>
+                        <button type='submit' class='btn btn-lg btn-primary '>View Award</button>
+					</div>
+				</form>";
  ?>
 
 

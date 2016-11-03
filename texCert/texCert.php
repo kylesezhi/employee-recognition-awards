@@ -3,7 +3,7 @@
 ** project group: Candis Pike, Shaun Sluman, Kyle Bedell
 */
 
-	include "dbconfig.php";
+	include_once "dbconfig.php";
     include "latexFill.php";
 	include "sendPDF.php";
 	ini_set('display_errors', 'On');

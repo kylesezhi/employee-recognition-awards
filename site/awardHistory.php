@@ -113,7 +113,15 @@ if($mysqli->connect_errno){
                     echo "<td>" . $award_title . "</td>";
                     echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                     echo "<td>" . $award_date . "</td>";
-                    echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                    echo "<td>";
+					//Display button that can be clicked to view the award
+					echo
+						"<form action='viewAward.php' method='post' target='_blank'>
+								<input type='hidden' name='id' value='" . $award_id . "'/>
+								<div class='form-group'>
+									<button type='submit' class='btn btn-md btn-primary '>View Award</button>
+								</div>
+							</form></td>";
                     echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
                     echo "</tr>";
 
@@ -123,7 +131,15 @@ if($mysqli->connect_errno){
                         echo "<td>" . $award_title . "</td>";
                         echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                         echo "<td>" . $award_date . "</td>";
-                        echo "<td><a href='#' class='btn btn-info' role='button'>View Award</a></td>";
+                        echo "<td>";
+						//Display button that can be clicked to view the award
+						echo
+							"<form action='viewAward.php' method='post' target='_blank'>
+								<input type='hidden' name='id' value='" . $award_id . "'/>
+								<div class='form-group'>
+									<button type='submit' class='btn btn-md btn-primary '>View Award</button>
+								</div>
+							</form></td>";
                         echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
                         echo "</tr>";
                     }

@@ -150,7 +150,7 @@ if($mysqli->connect_errno){
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Signature Image: </div>
-                    <div class="panel-body"><img src="JoeSmith.jpg"></div>
+                    <div class="panel-body"><img src="JoeSmith.png"></div>
                 </div>
             </div>
 

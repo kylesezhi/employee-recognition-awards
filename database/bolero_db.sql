@@ -18,6 +18,7 @@ CREATE TABLE `award_user`(
 `state` varchar(25),
 `act_id` int NOT NULL,
 `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`resetToken` varchar(10),
 PRIMARY KEY (`id`),
 FOREIGN KEY (act_id) REFERENCES act_type(id)
 ) ENGINE=InnoDB;

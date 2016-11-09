@@ -54,10 +54,10 @@
 				$mail -> addAddress($email);
 	
 				//subject line
-				$mail -> Subject = "Password Reset Link";
+				$mail -> Subject = "Password Recovery Link";
 	
 				//create url and message
-				$url= "http://web.engr.oregonstate.edu/~pikec/bolero/passReset.php?id=". $id . "?token=" . $token;
+				$url= "http://web.engr.oregonstate.edu/~pikec/bolero/passReset.php?id=". $id . "&token=" . $token;
 			    $msg = "Click this link to recover your password " . $url;
 				
 				//set body of email as the html message

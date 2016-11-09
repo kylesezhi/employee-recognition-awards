@@ -113,13 +113,13 @@
 				<div class="form-group">
                     <label class="control-label col-sm-2" for="pass">New Password:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="pass" name="newPass" placeholder="New Password">
+                            <input type="password" class="form-control" id="pass" name="newPass" placeholder="New Password" required>
                         </div>
                 </div>
 				 <div class="form-group">
                     <label class="control-label col-sm-2" for="confirm">Confirm Password:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="confirm" name="conPass" placeholder="Confim Password">
+                            <input type="password" class="form-control" id="confirm" name="conPass" placeholder="Confim Password" required>
                         </div>
                 </div>
                 <div class="form-group">

@@ -168,13 +168,6 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 								</div>
 
 								<div class="form-group">
-										<label class="control-label col-sm-2">Password:</label>
-										<div class="col-sm-10">
-												<button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Reset password</button>
-										</div>
-								</div>
-
-								<div class="form-group">
 										<label class="control-label col-sm-2">State:</label>
 										<div class="col-sm-10">
 											<select id="state" name="state" class="form-control" required>

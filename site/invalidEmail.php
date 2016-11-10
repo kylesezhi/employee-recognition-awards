@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Password Reset Invalid Email</h1>
+            <h1 class="page-header">Invalid Email</h1>
 			
 	        <p>The email is either invalid or does not exist.</p>
 

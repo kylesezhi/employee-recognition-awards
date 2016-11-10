@@ -119,7 +119,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Password Recovery</h1>
 			
-	        <p> Please, enter your email address. You will receive a link via email to recove your password.</p>
+	        <p> Please enter your email address. You will receive a link via email to recover your password.</p>
 
        		<form class="form-horizontal" action="passwordRetrieve.php" method="post">
                 <div class="form-group">

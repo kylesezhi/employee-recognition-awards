@@ -1,4 +1,5 @@
 <!--Load the AJAX API-->
+<script type="text/javascript" src="analytics/dataTableToCSV.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 
@@ -11,6 +12,7 @@
   // Callback that creates and populates a data table,
   // instantiates a dashboard, a range slider and a pie chart,
   // passes in the data and draws it.
+  var csv = "";
   function drawDashboard() {
 
     // Prepare the data
@@ -21,6 +23,7 @@
         }).responseText;
     
     var data = new google.visualization.DataTable(jsonData);
+    csv = dataTableToCSV(data);
 
     // Create a dashboard.
     var dashboard = new google.visualization.Dashboard(

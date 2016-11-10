@@ -62,9 +62,12 @@ if(!isset($_GET['second'])){
     <?php 
 		// imports file in analytics directory with the name "$first X $second .php"
 		require_once('analytics/'. strtolower($_GET['first']) . 'X' . strtolower($_GET['second']) . '.php');
-		// makeChart($_GET['first'], $_GET['second'], $mysqli);
-		
 		?>
+		
+		<script type="text/javascript">
+			var filename = '<?php echo $_GET['first'] ?>' + 'X' + '<?php echo $_GET['second'] ?>' + '.csv';
+		</script>
+		
   </head>
 
   <body>
@@ -107,11 +110,21 @@ if(!isset($_GET['second'])){
 			    <div id="dashboard_div" style="width: 100%;">
 			      <!--Divs that will hold each control and chart-->
 			      <div id="chart_div"></div>
-						<div class="row well">
-				      <div class="col-md-3" id="filter_div1"></div>
-				      <div class="col-md-3" id="filter_div2"></div>
-				      <div class="col-md-3" id="filter_div3"></div>
-				      <div class="col-md-3" id="filter_div4"></div>
+						<div class="well">
+							<div class="row">
+					      <div class="col-md-3" id="filter_div1"></div>
+					      <div class="col-md-3" id="filter_div2"></div>
+					      <div class="col-md-3" id="filter_div3"></div>
+					      <div class="col-md-3" id="filter_div4"></div>
+							</div>
+							<div class="row">
+								<div class="col-md-3" id="options_div">
+									<button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-default btn-primary">
+  <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download CSV
+</button>
+							</div>
+							</div>
+
 						</div>
 				      <div id="table_div"></div>
 			    </div>

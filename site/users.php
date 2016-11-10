@@ -52,12 +52,15 @@ if($mysqli->connect_errno){
     <![endif]-->
 
 		<!--Load the AJAX API-->
+		<script type="text/javascript" src="analytics/DataTableToCSV.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript">
     google.charts.load('current', { packages: ['controls'] });
     google.charts.setOnLoadCallback(drawDashboard);
 
+		var csv = "";
+		var filename = "users.csv";
     function drawDashboard() {
         // Prepare the data
         var jsonData = $.ajax({
@@ -67,6 +70,7 @@ if($mysqli->connect_errno){
             }).responseText;
         
         var data = new google.visualization.DataTable(jsonData);
+				csv = dataTableToCSV(data);
 
         // create a list of columns for the dashboard
         var columns = [{
@@ -168,8 +172,17 @@ if($mysqli->connect_errno){
           <h2 class="sub-header">Users</h2>
 					
 					<!-- <input class="search form-control" placeholder="Search" /> -->
-					<div id="filter_div"></div>
-          <div id="container_div"></div>
+					<div class="row">
+						<div class="col-md-3" id="filter_div"></div>
+						<div class="col-md-3"></div>
+						<div class="col-md-3">
+							<button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-default btn-primary">
+<span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download CSV
+</button>
+						</div>
+						<div class="col-md-3"></div>
+					</div>
+	        <div id="container_div"></div>
 					<!-- END PAGE CONTENT -->
         </div>
         

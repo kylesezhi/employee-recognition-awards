@@ -119,7 +119,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
           <ul class="nav nav-sidebar">
             <li><a href="users.php">Users <span class="sr-only">(current)</span></a></li>
             <li><a href="analytics.php">Analytics</a></li>
-            <li><a href="data.php">Data</a></li>
+            
           </ul>
         </div>
 				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

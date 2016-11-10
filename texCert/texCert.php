@@ -89,7 +89,7 @@
 		$cmd = "/usr/bin/pdflatex ".$tmpTex;
 	    exec($cmd, $output, $error);
 		if ($error > 0){
-			die ("Error cretaing pdf. Please, try again later.");
+			die ("Error creating PDF. Please try again later.");
 		}
 
 		//send or view

@@ -46,8 +46,6 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['sta
 }
 ?>
 
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

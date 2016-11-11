@@ -162,14 +162,14 @@ if($mysqli->connect_errno){
 			texCert($awardID);
 			
 			//Inform user of success
-			echo '<p>The ';
+			echo '<p>An Award for ';
 			if ($awardTitle == "customTitle") {
                 echo $customTitle;
             }
             else {
                 echo $awardTitle;
             }
-			echo ' Award has been sent to ' . $recipientFirstName . ' ' . $recipientLastName . ' at ' . $recipientEmail . '</p>';
+			echo ' has been sent to ' . $recipientFirstName . ' ' . $recipientLastName . ' at ' . $recipientEmail . '</p>';
 			
 			//Display button that can be clicked to view the award
 			echo

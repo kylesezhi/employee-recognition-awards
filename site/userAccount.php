@@ -154,9 +154,9 @@ if($mysqli->connect_errno){
                 </div>
             </div>
 
-            <a href="editAccount.php" class="btn btn-info" role="button">Edit User Information</a>
-            <a href="changePassword.php" class="btn btn-info" role="button">Change Password</a>
-            <a href="newSignature.php" class="btn btn-info" role="button">Upload New Signature</a>
+            <a href="editAccount.php" class="btn btn-md btn-primary" role="button">Edit User Information</a>
+            <a href="changePassword.php" class="btn btn-md btn-primary" role="button">Change Password</a>
+            <a href="newSignature.php" class="btn btn-md btn-primary" role="button">Upload New Signature</a>
 
         </div>
     </div>

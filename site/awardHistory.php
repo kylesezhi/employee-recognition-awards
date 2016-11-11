@@ -73,8 +73,6 @@ if($mysqli->connect_errno){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Award History</h1>
 
-
-
                 <?php
                 //Prepare SELECT statement to get award history data
                 if(!($stmt = $mysqli->prepare("SELECT a.first_name, a.last_name, a.award_date, a.id, c.title FROM award a INNER JOIN class c ON a.class_id = c.id INNER JOIN award_user au ON a.user_id = au.id WHERE au.id = ?;"))){
@@ -96,7 +94,7 @@ if($mysqli->connect_errno){
 
                 if(!$stmt->fetch()) {
                     echo "<p>You haven't created any awards yet. Give it a try!</p>";
-                    echo "<a href='generateAward.php' class='btn btn-info' role='button'>Generate Award</a>";
+                    echo "<a href='generateAward.php' class='btn btn-md btn-primary' role='button'>Generate Award</a>";
                 }
 
                 //Build table showing awards previously created by this user
@@ -113,16 +111,29 @@ if($mysqli->connect_errno){
                     echo "<td>" . $award_title . "</td>";
                     echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                     echo "<td>" . $award_date . "</td>";
-                    echo "<td>";
+                    
 					//Display button that can be clicked to view the award
+					echo "<td>";
 					echo
 						"<form action='viewAward.php' method='post' target='_blank'>
 								<input type='hidden' name='id' value='" . $award_id . "'/>
 								<div class='form-group'>
 									<button type='submit' class='btn btn-md btn-primary '>View Award</button>
 								</div>
-							</form></td>";
-                    echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
+							</form>";
+					echo "</td>";
+							
+					//Display button that can be clicked to delete the award
+					echo "<td>";
+					echo
+						"<form action='deleteAward.php' method='post'>
+								<input type='hidden' name='id' value='" . $award_id . "'/>
+								<div class='form-group'>
+									<button type='submit' class='btn btn-md btn-primary'>Delete Award</button>
+								</div>
+							</form>";
+					echo "</td>";
+					
                     echo "</tr>";
 
                     //Fill remaining rows if any
@@ -131,16 +142,29 @@ if($mysqli->connect_errno){
                         echo "<td>" . $award_title . "</td>";
                         echo "<td>" . $recipient_first_name . " " . $recipient_last_name . "</td>";
                         echo "<td>" . $award_date . "</td>";
-                        echo "<td>";
+                        
 						//Display button that can be clicked to view the award
+						echo "<td>";
 						echo
 							"<form action='viewAward.php' method='post' target='_blank'>
 								<input type='hidden' name='id' value='" . $award_id . "'/>
 								<div class='form-group'>
 									<button type='submit' class='btn btn-md btn-primary '>View Award</button>
 								</div>
-							</form></td>";
-                        echo "<td><a href='#' class='btn btn-info' role='button'>Delete Award</a></td>";
+							</form>";
+						echo "</td>";
+                        
+						//Display button that can be clicked to delete the award
+						echo "<td>";
+						echo
+							"<form action='deleteAward.php' method='post'>
+									<input type='hidden' name='id' value='" . $award_id . "'/>
+									<div class='form-group'>
+										<button type='submit' class='btn btn-md btn-primary '>Delete Award</button>
+									</div>
+								</form>";
+						echo "</td>";
+						
                         echo "</tr>";
                     }
 

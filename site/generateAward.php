@@ -76,7 +76,7 @@ else if($_SESSION['account_type'] === "admin") {
                     <div class="col-sm-8">
 
                         <div class="radio">
-                            <label><input type="radio" name="awardTitle" value="Employee of the Year">Employee of the Year</label>
+                            <label><input type="radio" name="awardTitle" value="Employee of the Year" checked>Employee of the Year</label>
                         </div>
                         <div class="radio">
                             <label><input type="radio" name="awardTitle" value="Employee of the Month">Employee of the Month</label>
@@ -91,28 +91,28 @@ else if($_SESSION['account_type'] === "admin") {
                 <div class="form-group">
                     <label class="control-label col-sm-2" id="recipientFirstNameInput">Recipient First Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="recipientFirstNameInput" name="recipientFirstNameInput" placeholder="Recipient First Name">
+                        <input type="text" class="form-control" id="recipientFirstNameInput" name="recipientFirstNameInput" placeholder="Recipient First Name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" id="recipientLastNameInput">Recipient Last Name:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="recipientLastNameInput" name="recipientLastNameInput" placeholder="Recipient Last Name">
+                        <input type="text" class="form-control" id="recipientLastNameInput" name="recipientLastNameInput" placeholder="Recipient Last Name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="recipientEmailInput">Recipient's Email Address:</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="recipientEmailInput" name="recipientEmailInput" placeholder="Recipient Email">
+                        <input type="email" class="form-control" id="recipientEmailInput" name="recipientEmailInput" placeholder="Recipient Email" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="awardDateInput">Award Date:</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" id="awardDateInput" name="awardDateInput"placeholder="Award Date">
+                        <input type="date" class="form-control" id="awardDateInput" name="awardDateInput"placeholder="Award Date" required>
                     </div>
                 </div>
 

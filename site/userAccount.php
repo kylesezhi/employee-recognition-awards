@@ -150,7 +150,46 @@ if($mysqli->connect_errno){
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Signature Image: </div>
-                    <div class="panel-body"><img src="JoeSmith.png"></div>
+                    <div class="panel-body">
+						<?php
+
+                        //Prepare SELECT statement for user's state
+                        if(!($stmt = $mysqli->prepare("SELECT sig FROM award_user WHERE id=?"))){
+                            echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+                        }
+
+                        //Set user id for current user
+                        $stmt->bind_param("s", $_SESSION["user_id"]);
+
+                        //Execute the SELECT statement
+                        if(!$stmt->execute()){
+                            echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Bind values to variables
+                        if(!$stmt->bind_result($signature)){
+                            echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+                        }
+
+                        //Display the signature image
+                        while($stmt->fetch()){
+						
+							//Display temp image if nothing uploaded yet
+							if ($signature == "") {
+								echo "<img src='img/csk.png'><br>";
+								echo "<p style='color:red;'>NOTE: This is a temporary signature. Please upload a new signature: ";
+								echo "<a href='newSignature.php' class='btn btn-info' role='button'>Upload New Signature</a></p>";
+							}
+							
+							//Display image from database
+							else {
+								echo '<img src="data:image/png;base64,'.base64_encode($signature) . '"/>';
+							}
+                        }
+
+                        $stmt->close();
+                        ?>
+					</div>
                 </div>
             </div>
 

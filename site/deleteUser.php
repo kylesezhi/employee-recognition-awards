@@ -226,7 +226,6 @@ if (isset($_POST['deleteConfirmed'])) {
 										</div>
 								</div>
 
-								<!-- TODO signature file upload -->
 								<div class="form-group">
 										<label class="control-label col-sm-2">Signature (PNG):</label>
 										<div class="col-sm-10">

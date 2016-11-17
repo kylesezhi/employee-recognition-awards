@@ -227,9 +227,12 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 
 								<!-- TODO signature file upload -->
 								<div class="form-group">
-										<label class="control-label col-sm-2">Signature (PNG):</label>
+										<label class="control-label col-sm-2">Signature:</label>
 										<div class="col-sm-10">
-											<input id="signature" name="signature" class="form-control" type="file" accept=".png">
+											<p>
+												<img src="signature.php?id=<?php echo $id; ?>" />
+											</p>
+											<a href="newSignature.php" class="btn btn-sm btn-info" role="button"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload New Signature</a>
 										</div>
 								</div>
 

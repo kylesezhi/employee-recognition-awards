@@ -1,5 +1,4 @@
 <?php
-			
 require_once("dbconfig.php");
 
 //Turn on error reporting
@@ -39,7 +38,7 @@ session_start();
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                <li><a href="#">User: <?php echo $_SESSION["username"] ?></a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -48,14 +47,6 @@ session_start();
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="generateAward.php">Generate Award</a></li>
-                <li><a href="awardHistory.php">Award History</a></li>
-                <li><a href="userAccount.php">Account Information</a></li>
-            </ul>
-
-        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Signature Upload</h1>
 			
@@ -110,9 +101,9 @@ session_start();
 				 
 				//Execute Update statement
 				if ($stmt->execute()) {
-					echo "Signature file uploaded";
+					echo "<div class=\"alert alert-success\" role=\"alert\"><strong>Success!</strong> Signature file uploaded.</div>";
 					echo "<br><br>";
-					echo '<a href="userAccount.php" class="btn btn-md btn-primary" role="button">Return to Account Information</a>';
+					echo '<a href="userAccount.php" class="btn btn-md btn-primary" role="button">Back</a>';
 				}
 			}
 

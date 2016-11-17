@@ -176,7 +176,7 @@ if($mysqli->connect_errno){
 						
 							//Display temp image if nothing uploaded yet
 							if ($signature == "") {
-								echo "<img src='img/csk.png'><br>";
+								echo "<img src='img_not_available.png'><br>";
 								echo "<p style='color:red;'>NOTE: This is a temporary signature. Please upload a new signature: ";
 								echo "<a href='newSignature.php' class='btn btn-info' role='button'>Upload New Signature</a></p>";
 							}
@@ -195,7 +195,7 @@ if($mysqli->connect_errno){
 
             <a href="editAccount.php" class="btn btn-md btn-primary" role="button">Edit User Information</a>
             <a href="changePassword.php" class="btn btn-md btn-primary" role="button">Change Password</a>
-            <a href="newSignature.php" class="btn btn-md btn-primary" role="button">Upload New Signature</a>
+            <a href="newSignature.php" class="btn btn-md btn-primary" role="button"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>  Upload New Signature</a>
 
         </div>
     </div>

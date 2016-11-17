@@ -12,10 +12,6 @@ if(!isset($_SESSION['account_type'])) {
     header('Location: index.php');
     exit();
 }
-else if($_SESSION['account_type'] === "admin") {
-    header('Location: users.php');
-    exit();
-}
 
 ?>
 
@@ -51,7 +47,7 @@ else if($_SESSION['account_type'] === "admin") {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="userAccount.php">User: <?php echo $_SESSION["username"] ?></a></li>
+                <li><a href="#">User: <?php echo $_SESSION["username"] ?></a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
@@ -60,17 +56,9 @@ else if($_SESSION['account_type'] === "admin") {
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="generateAward.php">Generate Award</a></li>
-                <li><a href="awardHistory.php">Award History</a></li>
-                <li><a href="userAccount.php">Account Information</a></li>
-            </ul>
-
-        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Upload New Signature</h1>
-			
+			<div class="alert alert-danger" role="alert"><strong>Warning!</strong> Any previous signature image for this user will be permanently lost.</div>
 			<p>Select signature file to upload (.png file):</p>
 						
 			<form class="form" action="uploadSig.php" method="post" enctype="multipart/form-data">

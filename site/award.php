@@ -73,12 +73,13 @@ if($mysqli->connect_errno){
 
             $awardTitle = $_POST['awardTitle'];
             $customTitle = $_POST['customAwardTitle'];
+			$proclamation = $_POST['proclamation'];
             $recipientFirstName = $_POST['recipientFirstNameInput'];
             $recipientLastName = $_POST['recipientLastNameInput'];
             $recipientEmail = $_POST['recipientEmailInput'];
             $awardDate = $_POST['awardDateInput'];
             $awardClassID = "";
-            $awardID = "";
+            $awardID = "";		
 
             /* Get class ID for award title */
             //Prepare SELECT statement
@@ -140,12 +141,12 @@ if($mysqli->connect_errno){
             $stmt->close();
 
             //Insert new award record
-            if(!($stmt = $mysqli->prepare("INSERT INTO award (user_id, class_id, first_name, last_name, email, award_date) VALUES (?,?,?,?,?,?)"))){
+            if(!($stmt = $mysqli->prepare("INSERT INTO award (user_id, class_id, first_name, last_name, email, award_date, proclamation) VALUES (?,?,?,?,?,?,?)"))){
                 echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
             }
 
             //Bind the values to variables
-            if(!($stmt->bind_param("iissss", $_SESSION["user_id"], $awardClassID, $recipientFirstName, $recipientLastName, $recipientEmail, $awardDate))){
+            if(!($stmt->bind_param("iisssss", $_SESSION["user_id"], $awardClassID, $recipientFirstName, $recipientLastName, $recipientEmail, $awardDate, $proclamation))){
                 echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
             }
 

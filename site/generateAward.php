@@ -88,6 +88,13 @@ else if($_SESSION['account_type'] === "admin") {
                     </div>
                 </div>
 
+				<div class="form-group">
+                    <label class="control-label col-sm-2" id="proclamation">Proclamation:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="proclamation" placeholder="Proclamation" name="proclamation" value="for outstanding performance, service, and dedication." maxlength="60" required>
+                    </div>
+                </div>
+				
                 <div class="form-group">
                     <label class="control-label col-sm-2" id="recipientFirstNameInput">Recipient First Name:</label>
                     <div class="col-sm-10">

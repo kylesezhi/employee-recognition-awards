@@ -1,5 +1,7 @@
 <?php
 require_once("dbconfig.php");
+require "createToken.php";
+require "./mailer/PHPMailerAutoload.php";
 
 //Turn on error reporting
 ini_set('display_errors', 'On');
@@ -18,13 +20,15 @@ if($_SESSION['account_type'] === "regular") {
 
 //If the required fields are filled out, add to DB and return to User admin
 // TODO add signature file check
-if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['password']) & isset($_POST['state'])) {
+if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['state'])) {
         
     //Connects to the database
     $mysqli = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_DB);
     if($mysqli->connect_errno){
       echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
     }
+	
+	$password = createToken(10);
     
     //Set usertype correctly: regular is 1 and admin is 2
     if($_POST['type'] === "regular") {
@@ -32,7 +36,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
       	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
       }
       
-      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state']))){
+      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'], $password, $_POST['state']))){
       	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
       }
     }
@@ -41,7 +45,7 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
       	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
       }
       
-      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'],$_POST['password'],$_POST['state']))){
+      if(!($stmt->bind_param("sssss",$_POST['first_name'],$_POST['last_name'],$_POST['email'], $password, $_POST['state']))){
       	echo "Bind failed: " . $stmt->errno . " " . $stmt->error;
       }
     } // end insert
@@ -49,12 +53,43 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
     if(!$stmt->execute()){
     	echo "Execute failed: " . $stmt->errno . " " . $stmt->error;
     } else {
-      $stmt->close();
-      header('Location: users.php');
-      exit();
+     $stmt->close();
+	 
+	 //send email to new user/admin
+	$mail = new PHPMailer(); 
+	
+	//sender info setfrom must be from domain to avoid spam filter. set reply to valid email
+	$mail -> setFrom("cskTech@web.engr.oregonstate.edu", 'CSKAdmin');
+	$mail -> AddReplyTo ("pikec@oregonstate.edu");
+	
+	//receipent info
+	$mail -> addAddress($_POST['email']);
+	
+	//subject line
+	$mail -> Subject = "Employee Recognition New Account";
+	
+		//read html message
+	$msg = file_get_contents("./template/email_account.html");
+	
+	//replace placeholders with data
+	$fullName = $_POST['first_name'] . " ". $_POST['last_name'];
+	$msg = str_replace ("%fullName%", $fullName, $msg);
+	$msg = str_replace ("%temp%", $password, $msg);
+	
+	//set body of email as the html message
+	$mail -> isHTML (true);
+	$mail -> MsgHTML ($msg);
+	$mail -> AltBody = "Your employee recognition account has been created. Your temporary passwrod is ". $password;
+	
+	//send and check for error
+	if(!$mail -> Send()){
+		$msg =  "Error sending mail.";
+	}
+	else{
+	 header('Location: users.php');
+     exit();
     }
-    $stmt->close();
-
+  }
 }
 ?>
 
@@ -158,13 +193,6 @@ if (isset($_POST['type']) && isset($_POST['first_name']) & isset($_POST['last_na
 										<label class="control-label col-sm-2">E-mail:</label>
 										<div class="col-sm-10">
 												<input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
-										</div>
-								</div>
-
-								<div class="form-group">
-										<label class="control-label col-sm-2">Password:</label>
-										<div class="col-sm-10">
-												<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 										</div>
 								</div>
 

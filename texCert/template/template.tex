@@ -13,6 +13,7 @@
 % <?php echo "\n"."\\newcommand{\\giveName}{". sani($data['giveName']) . "}\n"; ?>
 % <?php echo "\n"."\\newcommand{\\dateAward}{". sani($data['dateAward']) . "}\n"; ?>
 % <?php echo "\n"."\\newcommand{\\titleAward}{". sani($data['titleAward']) . "}\n"; ?>
+% <?php echo "\n"."\\newcommand{\\proc}{". sani($data['proc']) . "}\n"; ?>
 % <?php echo "\n"."\\newcommand{\\sig}{". sani($data['sig']) . "}\n"; ?>
 
 \begin {document}
@@ -28,7 +29,7 @@
 		\\
 		{\huge \recName{}}
 	\end{spacing}
-		for outstanding performance, service, and dedication.
+		\proc{}
 	\end{center}
 		\begin{minipage}[c]{0.50\textwidth}
 			    \center\dateAward{}

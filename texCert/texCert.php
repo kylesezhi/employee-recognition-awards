@@ -18,11 +18,11 @@
          }
                  
          //get award info from awardID
-         $query= "SELECT id, first_name, last_name, user_id, class_id, award_date, email FROM award where id = ?";
+         $query= "SELECT id, first_name, last_name, user_id, class_id, proclamation, award_date, email FROM award where id = ?";
          $stmt = $db->prepare($query);
          $stmt->bind_param("i", $awardID);
          $stmt->execute();
-         $stmt-> bind_result($aID, $fname, $lname, $uID, $cID, $da, $email);
+         $stmt-> bind_result($aID, $fname, $lname, $uID, $cID, $proc, $da, $email);
          $stmt-> fetch();
          $stmt->close();
                   
@@ -78,6 +78,7 @@
            "giveName" => $giveName,
            "dateAward" => $date,
            "titleAward" => $title,
+		   "proclomation" => $proc,
            "sig" => $tmpsig
            ];
         

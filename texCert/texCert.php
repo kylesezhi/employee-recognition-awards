@@ -78,7 +78,7 @@
            "giveName" => $giveName,
            "dateAward" => $date,
            "titleAward" => $title,
-		   "proclomation" => $proc,
+		   "proclamation" => $proc,
            "sig" => $tmpsig
            ];
         

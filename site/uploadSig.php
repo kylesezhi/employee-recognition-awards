@@ -48,43 +48,13 @@ session_start();
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Signature Upload</h1>
+            <h1 class="page-header">Signature Update</h1>
 			
 			<?php
-			// File upload and error checking code from chapter 19 of "PHP and MySQL Web Development"
-			// by Luke Welling and Laura Thomson
-			if ($_FILES['signature']['error'] > 0) {
-				echo 'Error: ';
-				switch ($_FILES['signature']['error']) {
-					case 1: echo 'File exceeded upload_max_filesize';
-								break;
-					case 2: echo 'File exceeded max_file_size';
-								break;
-					case 3: echo 'File only partially uploaded';
-								break;
-					case 4: echo 'No file uploaded';
-								break;
-					case 6: echo 'Cannot upload file: No temp directory specified';
-								break;
-					case 7: echo 'Upload failed: Cannot write to disk';
-								break;
-				}
-				exit;
-			}
-
-			//Check if file has correct MIME type
-			if ($_FILES['signature']['type'] != 'image/png') {
-				echo 'Error: Incorrect file type. Must be a .png file.';
-				exit;
-			}
-
-			if (is_uploaded_file ($_FILES['signature']['tmp_name'])) {
-				
-				//Code for adding uploaded file to SQL database adapted from http://www.sevenkb.com/php/how-to-insert-upload-image-into-mysql-database-using-php-and-how-to-display-an-image-in-php-from-mysql-database/
-				
-				//Get the signature image's binary data
-				$signature = fopen($_FILES['signature']['tmp_name'], 'rb');
-				
+			
+			//Function for updating signature file in database
+			//Code for adding uploaded file to SQL database adapted from http://www.sevenkb.com/php/how-to-insert-upload-image-into-mysql-database-using-php-and-how-to-display-an-image-in-php-from-mysql-database/
+			function updateSig($signature) {
 				//Connect to the database
 				$dbinfo = "mysql:host=" . DB_HOST . ";dbname=" . DB_DB;
 				$dbh = new PDO($dbinfo, DB_USER, DB_PASSWORD);
@@ -102,13 +72,65 @@ session_start();
 				//Execute Update statement
 				if ($stmt->execute()) {
 					echo "<div class=\"alert alert-success\" role=\"alert\"><strong>Success!</strong> Signature file uploaded.</div>";
-					echo "<br><br>";
 					echo '<a href="userAccount.php" class="btn btn-md btn-primary" role="button">Back</a>';
 				}
 			}
-
+			
+			//If drawn signature submitted by POST
+			if (isset($_POST['signature'])) {
+				
+				//Get the signature binary data -- processing steps adapted from https://github.com/szimek/signature_pad 
+				$rawSig = $_POST['signature'];
+				$encoded_sig = explode(",", $rawSig)[1];
+				$signature = base64_decode($encoded_sig);
+				
+				//Update the signature using function
+				updateSig($signature);
+			}
+			
+			//Otherwise attempt to process uploaded file
 			else {
-				echo "File not uploaded";
+	
+				// File upload and error checking code from chapter 19 of "PHP and MySQL Web Development"
+				// by Luke Welling and Laura Thomson
+				if ($_FILES['signature']['error'] > 0) {
+					echo 'Error: ';
+					switch ($_FILES['signature']['error']) {
+						case 1: echo 'File exceeded upload_max_filesize';
+									break;
+						case 2: echo 'File exceeded max_file_size';
+									break;
+						case 3: echo 'File only partially uploaded';
+									break;
+						case 4: echo 'No file uploaded';
+									break;
+						case 6: echo 'Cannot upload file: No temp directory specified';
+									break;
+						case 7: echo 'Upload failed: Cannot write to disk';
+									break;
+					}
+					exit;
+				}
+
+				//Check if file has correct MIME type
+				if ($_FILES['signature']['type'] != 'image/png') {
+					echo 'Error: Incorrect file type. Must be a .png file.';
+					exit;
+				}
+
+				if (is_uploaded_file ($_FILES['signature']['tmp_name'])) {
+					
+					
+					//Get the signature image's binary data
+					$signature = fopen($_FILES['signature']['tmp_name'], 'rb');		
+					
+					//Update the signature using function
+					updateSig($signature);
+				}
+
+				else {
+					echo "File not uploaded";
+				}
 			}
 
 			?>

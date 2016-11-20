@@ -22,7 +22,7 @@ if(!isset($_SESSION['account_type'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Employee Recognition Awards - Upload New Signature</title>
+    <title>Employee Recognition Awards - New Signature</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +30,7 @@ if(!isset($_SESSION['account_type'])) {
     <link href="dashboard.css" rel="stylesheet">
     <!-- Custom styles -->
     <link href="awardform.css" rel="stylesheet">
+	<link href="signature-pad.css" rel="stylesheet">
 
 </head>
 <body>
@@ -57,27 +58,68 @@ if(!isset($_SESSION['account_type'])) {
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Upload New Signature</h1>
+            <h1 class="page-header">New Signature</h1>
+			
+			<p>To use a new signature for this user, either upload a .png image file showing the signature or simply draw a signature in the box below.</p>
+			
 			<div class="alert alert-danger" role="alert"><strong>Warning!</strong> Any previous signature image for this user will be permanently lost.</div>
-			<p>Select signature file to upload (.png file):</p>
+			
+			<!-- Upload signature file -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">Upload Signature File</div>
+				<div class="panel-body">
+					<p>Select signature file to upload (.png file):</p>
+								
+					<form class="form" action="uploadSig.php" method="post" enctype="multipart/form-data">
+						<div class="form-group">
+							<div class="col-sm-10">
+								<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+								<input type="file" name="signature" id="signature" accept="image/png">
+							</div>
+						</div>
 						
-			<form class="form" action="uploadSig.php" method="post" enctype="multipart/form-data">
-				<div class="form-group">
-                    <div class="col-sm-10">
-						<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
-						<input type="file" name="signature" id="signature" accept="image/png">
-                    </div>
-                </div>
-				
-				<br><br>
-				
-				<div class="form-group">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-lg btn-primary ">Upload Signature</button>
-                    </div>
-                </div>
-				
-			</form>
+						<br><br>
+						
+						<div class="form-group">
+							<div class="col-sm-10">
+								<button type="submit" class="btn btn-md btn-primary "><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload Signature</button>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+			</div>
+			
+			
+			<!-- Alternately, draw own signature --> 
+			<!-- Code adapted from Szymon Nowak's Signature Pad project: https://github.com/szimek/signature_pad -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">Draw Signature</div>
+				<div class="panel-body">
+
+					<div>
+						<div id="signature-pad" class="m-signature-pad">
+						
+						<div class="m-signature-pad--body">
+							<canvas></canvas>
+						</div>
+						
+						<div class="m-signature-pad--footer">
+							<div class="description">Sign above</div>
+								<button type="button" class="button clear" data-action="clear">Clear</button>
+								<button type="button" class="button save" data-action="save">Save</button>
+							</div>
+						</div>
+					
+						<script src="js/signature_pad.js"></script>
+						<script src="js/drawSig.js"></script>
+					</div>
+					
+					<br><br><br><br><br><br><br><br><br><br><br>
+				</div>
+			</div>
+			
+			
         </div>
     </div>
 </div>

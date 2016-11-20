@@ -185,7 +185,7 @@ if (isset($_POST['oldPass']) & isset($_POST['newPass']) & isset($_POST['conNewPa
 				}
 				
 				else if ($status == 4) {
-					echo "<p style='color:green;'>Success. Password changed.</p>";
+					echo "<div class=\"alert alert-success\" role=\"alert\"><strong>Success!</strong> Password changed.</div>";
 					echo '<a href="userAccount.php" class="btn btn-md btn-primary" role="button">Back</a>';
 				}
 				?>

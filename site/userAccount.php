@@ -195,7 +195,7 @@ if($mysqli->connect_errno){
 
             <a href="editAccount.php" class="btn btn-md btn-primary" role="button">Edit User Information</a>
             <a href="changePassword.php" class="btn btn-md btn-primary" role="button">Change Password</a>
-            <a href="newSignature.php" class="btn btn-md btn-primary" role="button"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>  Upload New Signature</a>
+            <a href="newSignature.php" class="btn btn-md btn-primary" role="button">Change Signature</a>
 
         </div>
     </div>

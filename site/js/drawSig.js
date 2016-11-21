@@ -1,5 +1,14 @@
 //Code adapted from Szymon Nowak's Signature Pad project: https://github.com/szimek/signature_pad
 
+// Based on: http://stackoverflow.com/questions/5292372/how-to-pass-parameters-to-a-script-tag
+function getParams() {
+     var scripts = document.getElementsByTagName('script');
+     var lastScript = scripts[scripts.length-1];
+     var scriptName = lastScript;
+     var id = scriptName.getAttribute('data-id');
+     return id;
+ }
+
 var wrapper = document.getElementById("signature-pad"),
     clearButton = wrapper.querySelector("[data-action=clear]"),
     saveButton = wrapper.querySelector("[data-action=save]"),
@@ -29,6 +38,12 @@ clearButton.addEventListener("click", function (event) {
 });
 
 saveButton.addEventListener("click", function (event) {
+    var id = getParams();
+    if (id === null ) {
+      id = '';
+    } else {
+      id = '?id=' + id;
+    }
     if (signaturePad.isEmpty()) {
         alert("Please provide signature first.");
     } else {
@@ -39,7 +54,7 @@ saveButton.addEventListener("click", function (event) {
 		//Submit via hidden form -- following code adapted from http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
 		var sigForm = document.createElement("form");
 		sigForm.setAttribute("method", "post");
-		sigForm.setAttribute("action", "uploadSig.php");
+		sigForm.setAttribute("action", "uploadSig.php" + id);
 
 		var hiddenField = document.createElement("input");
 		hiddenField.setAttribute("type", "hidden");

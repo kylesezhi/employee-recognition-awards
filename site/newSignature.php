@@ -13,6 +13,15 @@ if(!isset($_SESSION['account_type'])) {
     exit();
 }
 
+if(isset($_GET['id'])) {
+  $querystring = '?id=' . $_GET['id'];
+  $jsvar = 'data-id="' . $_GET['id'] . '"';
+  // echo '<script>var id = ' . $_GET['id'] . ';</script>';
+} else {
+  $querystring = '';
+  $jsvar = '';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -70,11 +79,11 @@ if(!isset($_SESSION['account_type'])) {
 				<div class="panel-body">
 					<p>Select signature file to upload (.png file):</p>
 								
-					<form class="form" action="uploadSig.php" method="post" enctype="multipart/form-data">
+					<form class="form" action="uploadSig.php<?php echo $querystring; ?>" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<div class="col-sm-10">
 								<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
-								<input type="file" name="signature" id="signature" accept="image/png">
+								<input type="file" name="signature" id="signature" accept="image/png" required>
 							</div>
 						</div>
 						
@@ -111,8 +120,12 @@ if(!isset($_SESSION['account_type'])) {
 							</div>
 						</div>
 					
-						<script src="js/signature_pad.js"></script>
-						<script src="js/drawSig.js"></script>
+						<script type="text/javascript" src="js/signature_pad.js"></script>
+            <!-- <script type="text/javascript">
+              alert('TEST');
+              console.log('TEST');
+            </script> -->
+						<script type="text/javascript" <?php echo $jsvar; ?> src="js/drawSig.js"></script>
 					</div>
 					
 					<br><br><br><br><br><br><br><br><br><br><br>

@@ -67,7 +67,11 @@ session_start();
 				 
 				//Bind parameters
 				$stmt->bindParam(1, $signature, PDO::PARAM_LOB);
-				$stmt->bindParam(2, $_SESSION['user_id']);
+        if(isset($_GET['id'])) {
+          $stmt->bindParam(2, $_GET['id']);
+        } else {
+          $stmt->bindParam(2, $_SESSION['user_id']);
+        }
 				 
 				//Execute Update statement
 				if ($stmt->execute()) {

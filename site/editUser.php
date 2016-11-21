@@ -232,7 +232,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 											<p>
 												<img src="signature.php?id=<?php echo $id; ?>" />
 											</p>
-											<a href="newSignature.php" class="btn btn-sm btn-info" role="button"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload New Signature</a>
+											<a href="newSignature.php?id=<?php echo $id; ?>" class="btn btn-sm btn-info" role="button"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> Upload New Signature</a>
 										</div>
 								</div>
 

@@ -16,7 +16,8 @@
 		$email = $_POST['emailInput'];
 			
 		if (!filter_var($email,FILTER_VALIDATE_EMAIL)){	
-			header('Location: invalidEmail.php');
+			$msg = "<div class ='alert alert-warning'> <a href='#' class='close' date-dismiss='alert'>&times;</a>
+					<strong>ERROR!</strong> The email is invalid. </div>";
 		}//end if not valid
 		
 		//else valid email
@@ -73,7 +74,8 @@
 				}
 			}//end valid email
 			else{
-				header('Location: invalidEmail.php');
+				$msg = "<div class ='alert alert-warning'> <a href='#' class='close' date-dismiss='alert'>&times;</a>
+							<strong>ERROR!</strong> The email does not exist. </div>";
 			}
 			
 		}//end else
@@ -122,6 +124,11 @@
 	        <p> Please enter your email address. You will receive a link via email to recover your password.</p>
 
        		<form class="form-horizontal" action="passwordRetrieve.php" method="post">
+			<?php
+				if (isset($msg)){
+					echo $msg;
+				}
+			?>	
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="emailInput">Email Address:</label>
                         <div class="col-sm-10">

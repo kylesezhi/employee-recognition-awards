@@ -29,6 +29,21 @@
     var dashboard = new google.visualization.Dashboard(
         document.getElementById('dashboard_div'));
 
+    // Create a category filter, passing some options
+    var stateFilter = new google.visualization.ControlWrapper({
+      'controlType': 'CategoryFilter',
+      'containerId': 'filter_div4',
+      'options': {
+        'filterColumnLabel': 'State',
+        'filterColumnIndex': 4,
+            'ui': {
+              'caption': 'Choose a state...',
+              'allowTyping': false,
+              'selectedValuesLayout': 'below',
+              // 'cssClass': 'form-control',
+            }
+      }
+    });
 
     var chart = new google.visualization.ChartWrapper({
       'chartType': 'ColumnChart',
@@ -107,8 +122,8 @@
     // Establish dependencies, declaring that 'filter' drives 'chart',
     // so that the pie chart will only display entries that are let through
     // given the chosen slider range.
-    dashboard.bind([awardsRangeSlider, searchFilter], table);
-    dashboard.bind([awardsRangeSlider, searchFilter], chart);
+    dashboard.bind([awardsRangeSlider, searchFilter, stateFilter], table);
+    dashboard.bind([awardsRangeSlider, searchFilter, stateFilter], chart);
 
     // Draw the dashboard.
     dashboard.draw(data);

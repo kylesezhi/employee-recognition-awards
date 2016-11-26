@@ -29,7 +29,7 @@
     var dashboard = new google.visualization.Dashboard(
         document.getElementById('dashboard_div'));
 
-    // Create a range slider, passing some options
+    // Create a category filter, passing some options
     var stateFilter = new google.visualization.ControlWrapper({
       'controlType': 'CategoryFilter',
       'containerId': 'filter_div1',

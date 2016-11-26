@@ -37,8 +37,9 @@
         'legend': {'position': 'none'},
         'height': 400,
         'colors': ['#C02425'],
+        'hAxis': {'textPosition': 'none'},
       },
-      'view': {'columns': [2, 4]}, // TODO
+      'view': {'columns': [2, 5]},
     });
     
     // Options for table
@@ -53,7 +54,7 @@
         chartType: 'Table',
         containerId: 'table_div',
         options,
-        'view': {'columns': [0, 1, 3, 4]},
+        'view': {'columns': [0, 1, 3, 4, 5]},
     });
     
     // create a list of columns for the dashboard

@@ -11,12 +11,13 @@ if($mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 
-$result = mysqli_query($mysqli, "SELECT AU.first_name, AU.last_name, CONCAT(AU.first_name, ' ', AU.last_name), AU.email, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;");
+$result = mysqli_query($mysqli, "SELECT AU.first_name, AU.last_name, CONCAT(AU.first_name, ' ', AU.last_name), AU.email, AU.state, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY `totalAwards` DESC;");
 $output = ["cols" => [
 	["id" => "", "label" => "First name", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Last name", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Full name", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Email", "pattern" => "", "type" => "string"],
+	["id" => "", "label" => "State", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Awards", "pattern" => "", "type" => "number"],
 ]];
 $rows = array();

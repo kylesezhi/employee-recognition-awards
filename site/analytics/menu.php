@@ -16,7 +16,7 @@ function makeMenu($first, $second, $menuItems) {
         ?>
       </ul>
     </div>
-    BY
+    &nbsp;&nbsp;by&nbsp;&nbsp;  
     <div class="btn-group">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <?php echo $second ?> <span class="caret"></span>

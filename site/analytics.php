@@ -110,6 +110,26 @@ if(!isset($_GET['second'])){
 			    <div id="dashboard_div" style="width: 100%;">
 			      <!--Divs that will hold each control and chart-->
 			      <div id="chart_div"></div>
+						<!-- <nav class="navbar navbar-default">
+						  <div class="container-fluid">
+						    <div class="navbar-header">
+						      <ul class="nav navbar-nav">
+						      	<li><div id="filter_div1"></div></li>
+						      </ul>
+						    </div>
+						  </div>
+						</nav> -->
+						
+						<div class="row">
+							<div class="col-md-12">
+								<span class="pull-right">
+								<button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-sm btn-primary">
+<span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download CSV
+</button></span>
+						</div>
+						</div>
+						<div class="row">&nbsp;</div>
+
 						<div class="well">
 							<div class="row">
 					      <div class="col-md-3" id="filter_div1"></div>
@@ -117,14 +137,6 @@ if(!isset($_GET['second'])){
 					      <div class="col-md-3" id="filter_div3"></div>
 					      <div class="col-md-3" id="filter_div4"></div>
 							</div>
-							<div class="row">
-								<div class="col-md-3" id="options_div">
-									<button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-default btn-primary">
-  <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download CSV
-</button>
-							</div>
-							</div>
-
 						</div>
 				      <div id="table_div"></div>
 			    </div>

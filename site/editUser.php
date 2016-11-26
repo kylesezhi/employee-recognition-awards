@@ -68,7 +68,7 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
     <link href="dashboard.css" rel="stylesheet">
 		
     <!-- Custom styles for forms -->
-    <link href="forms.css" rel="stylesheet">
+    <link href="css/forms.css" rel="stylesheet">
 		
 		<!-- Font Awesome -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">

@@ -173,15 +173,14 @@ if($mysqli->connect_errno){
 					
 					<!-- <input class="search form-control" placeholder="Search" /> -->
 					<div class="row">
-						<div class="col-md-3" id="filter_div"></div>
-						<div class="col-md-3"></div>
-						<div class="col-md-3">
-							<button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-default btn-primary">
+						<div class="col-md-6" id="filter_div"></div>
+						<div class="col-md-6">
+							<span class="pull-right"><button onclick="downloadCSV(csv, filename)" type="button" class="btn btn-sm btn-primary">
 <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download CSV
-</button>
+</button></span>
 						</div>
-						<div class="col-md-3"></div>
 					</div>
+					<div class="row">&nbsp;</div>
 	        <div id="container_div"></div>
 					<!-- END PAGE CONTENT -->
         </div>

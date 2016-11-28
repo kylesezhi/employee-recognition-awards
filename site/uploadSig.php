@@ -1,5 +1,6 @@
 <?php
 require_once("dbconfig.php");
+require_once('php_image_magician.php'); //http://phpimagemagician.jarrodoberto.com/
 
 //Turn on error reporting
 ini_set('display_errors', 'On');
@@ -55,6 +56,7 @@ session_start();
 			//Function for updating signature file in database
 			//Code for adding uploaded file to SQL database adapted from http://www.sevenkb.com/php/how-to-insert-upload-image-into-mysql-database-using-php-and-how-to-display-an-image-in-php-from-mysql-database/
 			function updateSig($signature) {
+				
 				//Connect to the database
 				$dbinfo = "mysql:host=" . DB_HOST . ";dbname=" . DB_DB;
 				$dbh = new PDO($dbinfo, DB_USER, DB_PASSWORD);
@@ -67,17 +69,22 @@ session_start();
 				 
 				//Bind parameters
 				$stmt->bindParam(1, $signature, PDO::PARAM_LOB);
-        if(isset($_GET['id'])) {
-          $stmt->bindParam(2, $_GET['id']);
-        } else {
-          $stmt->bindParam(2, $_SESSION['user_id']);
-        }
-				 
+				
+				//If on admin account on got here through button passing userID, bind passed ID
+				if(isset($_GET['id'])) {
+					$stmt->bindParam(2, $_GET['id']);
+				}
+				//Otherwise, if on regular account, bind logged-in userID
+				else {
+					$stmt->bindParam(2, $_SESSION['user_id']);
+				}
+				
 				//Execute Update statement
 				if ($stmt->execute()) {
 					echo "<div class=\"alert alert-success\" role=\"alert\"><strong>Success!</strong> Signature file uploaded.</div>";
 					echo '<a href="userAccount.php" class="btn btn-md btn-primary" role="button">Back</a>';
 				}
+				
 			}
 			
 			//If drawn signature submitted by POST
@@ -86,11 +93,40 @@ session_start();
 				//Get the signature binary data -- processing steps adapted from https://github.com/szimek/signature_pad 
 				$rawSig = $_POST['signature'];
 				$encoded_sig = explode(",", $rawSig)[1];
-				$signature = base64_decode($encoded_sig);
+				$sig = base64_decode($encoded_sig);
 				
-				//Update the signature using function
+				//Temp file name
+				$tempFilename = 'tempSig.png';
+				
+				//read binary data from image file
+				//$imgString = file_get_contents($_FILES['signature']['tmp_name']);
+				
+				//create image from string
+				$image = imagecreatefromstring($sig);
+				
+				//Correct for .png transparency - adapted from http://stackoverflow.com/questions/11364160/png-black-background-when-upload-and-resize-image
+				imagecolortransparent($image, imagecolorallocatealpha($image, 0, 0, 0, 127));
+				imagealphablending($image, false);
+				imagesavealpha($image, true);
+				
+				//Save temp image
+				imagepng($image, $tempFilename, 0);
+				
+				//Resize temp image using PHP Image Magician: http://phpimagemagician.jarrodoberto.com/
+				$sigFile = new imageLib($tempFilename);
+				$sigFile->resizeImage(250, 75, 'portrait');
+				$sigFile->saveImage($tempFilename, 100);
+					
+				//Get the resized temp image's binary data
+				$signature = fopen($tempFilename, 'rb');			
+									
+				//Update the signature in database using function
 				updateSig($signature);
-			}
+				
+				//Delete the temp file
+				unlink($tempFilename);
+
+				}
 			
 			//Otherwise attempt to process uploaded file
 			else {
@@ -123,13 +159,38 @@ session_start();
 				}
 
 				if (is_uploaded_file ($_FILES['signature']['tmp_name'])) {
+										
+					//Temp file name
+					$tempFilename = 'tempSig.png';
 					
+					//read binary data from image file
+					$imgString = file_get_contents($_FILES['signature']['tmp_name']);
 					
-					//Get the signature image's binary data
-					$signature = fopen($_FILES['signature']['tmp_name'], 'rb');		
+					//create image from string
+					$image = imagecreatefromstring($imgString);
 					
-					//Update the signature using function
+					//Correct for .png transparency - adapted from http://stackoverflow.com/questions/11364160/png-black-background-when-upload-and-resize-image
+					imagecolortransparent($image, imagecolorallocatealpha($image, 0, 0, 0, 127));
+					imagealphablending($image, false);
+					imagesavealpha($image, true);
+					
+					//Save temp image
+					imagepng($image, $tempFilename, 0);
+					
+					//Resize temp image using PHP Image Magician: http://phpimagemagician.jarrodoberto.com/
+					$sigFile = new imageLib($tempFilename);
+					$sigFile->resizeImage(250, 75, 'portrait');
+					$sigFile->saveImage($tempFilename, 100);
+						
+					//Get the resized temp image's binary data
+					$signature = fopen($tempFilename, 'rb');			
+										
+					//Update the signature in database using function
 					updateSig($signature);
+					
+					//Delete the temp file
+					unlink($tempFilename);
+					
 				}
 
 				else {

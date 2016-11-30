@@ -77,7 +77,6 @@ if($mysqli->connect_errno){
 				
         var data = new google.visualization.DataTable(jsonData);
         var dataCSV = new google.visualization.DataTable(jsonDataCSV);
-				// console.log("data");
 				csv = dataTableToCSV(dataCSV);
 
         // create a list of columns for the dashboard
@@ -128,7 +127,7 @@ if($mysqli->connect_errno){
             containerId: 'container_div',
             options,
             view: {
-                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // TODO
+                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             }
         });
         

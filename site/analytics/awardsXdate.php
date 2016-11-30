@@ -40,7 +40,6 @@
         //    color: '#F0CB35'
         //  }
       },
-      // 'view': {'columns': [2, 4]}, // TODO
     });
     
     // Options for table

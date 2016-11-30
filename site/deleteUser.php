@@ -23,7 +23,6 @@ if($mysqli->connect_errno){
 }
 
 //If we are updating, do the update
-// TODO add signature file check
 if (isset($_POST['deleteConfirmed'])) {
     if(!($stmt = $mysqli->prepare("DELETE FROM award_user WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;

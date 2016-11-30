@@ -41,7 +41,6 @@
         //    color: '#F0CB35'
         //  }
       },
-      // 'view': {'columns': [0, 1]}, // TODO
     });
     
     // Options for table

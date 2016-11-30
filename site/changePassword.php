@@ -12,10 +12,6 @@ if(!isset($_SESSION['account_type'])) {
     header('Location: index.php');
     exit();
 }
-else if($_SESSION['account_type'] === "admin") {
-    header('Location: users.php');
-    exit();
-}
 
 //Boolean for whether status message should be displayed (off by default)
 $status = 0;
@@ -133,9 +129,6 @@ if (isset($_POST['oldPass']) & isset($_POST['newPass']) & isset($_POST['conNewPa
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="generateAward.php">Generate Award</a></li>
-                <li><a href="awardHistory.php">Award History</a></li>
-                <li><a href="userAccount.php">Account Information</a></li>
             </ul>
 
         </div>

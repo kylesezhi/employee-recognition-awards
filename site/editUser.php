@@ -23,7 +23,6 @@ if($mysqli->connect_errno){
 }
 
 //If we are updating, do the update
-// TODO add signature file check
 if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['email']) & isset($_POST['state']) & isset($_POST['id'])) {
     if(!($stmt = $mysqli->prepare("UPDATE award_user SET first_name = ?, last_name = ?, email = ?, state = ? WHERE id = ?;"))){
     	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
@@ -226,7 +225,6 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 										</div>
 								</div>
 
-								<!-- TODO signature file upload -->
 								<div class="form-group">
 										<label class="control-label col-sm-2">Signature:</label>
 										<div class="col-sm-10">
@@ -237,9 +235,16 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 										</div>
 								</div>
 
+								<div class="form-group">
+										<label class="control-label col-sm-2">Password:</label>
+										<div class="col-sm-10">
+											<a href="changePassword.php" class="btn btn-sm btn-info" role="button">Change Password</a>
+										</div>
+								</div>
+
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-lg btn-primary ">Submit</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
                     </div>
                 </div>
             </form>

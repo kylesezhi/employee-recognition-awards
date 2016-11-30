@@ -36,13 +36,13 @@ function dataTableToCSV(dataTable_arg) {
 }
 
 function downloadCSV (csv_out, filename) {
-            var blob = new Blob([csv_out], {type: 'text/csv;charset=utf-8'});
-            var url  = window.URL || window.webkitURL;
-            var link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
-            link.href = url.createObjectURL(blob);
-            link.download = filename; 
+    var blob = new Blob([csv_out], {type: 'text/csv;charset=utf-8'});
+    var url  = window.URL || window.webkitURL;
+    var link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+    link.href = url.createObjectURL(blob);
+    link.download = filename; 
 
-            var event = document.createEvent("MouseEvents");
-            event.initEvent("click", true, false);
-            link.dispatchEvent(event); 
+    var event = document.createEvent("MouseEvents");
+    event.initEvent("click", true, false);
+    link.dispatchEvent(event); 
 }

@@ -69,8 +69,16 @@ if($mysqli->connect_errno){
             async: false
             }).responseText;
         
+				var jsonDataCSV = $.ajax({
+						url: "analytics/getUsersCSV.php",
+						dataType: "json",
+						async: false
+						}).responseText;
+				
         var data = new google.visualization.DataTable(jsonData);
-				csv = dataTableToCSV(data);
+        var dataCSV = new google.visualization.DataTable(jsonDataCSV);
+				// console.log("data");
+				csv = dataTableToCSV(dataCSV);
 
         // create a list of columns for the dashboard
         var columns = [{

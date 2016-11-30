@@ -13,7 +13,7 @@ if($mysqli->connect_errno){
 
 $result = mysqli_query($mysqli, "SELECT AU.id, AU.first_name, AU.last_name, AU.email, AU.state, AU.created, ACT.title, COUNT(A.class_id) AS 'totalAwards' FROM award_user AU LEFT JOIN award A ON A.user_id = AU.id INNER JOIN act_type ACT ON ACT.id = AU.act_id GROUP BY AU.email ORDER BY AU.id;");
 $output = ["cols" => [
-	["id" => "", "label" => "ID", "pattern" => "", "type" => "string"],
+	["id" => "", "label" => "User ID", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "First name", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Last name", "pattern" => "", "type" => "string"],
 	["id" => "", "label" => "Email", "pattern" => "", "type" => "string"],

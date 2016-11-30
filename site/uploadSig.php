@@ -97,10 +97,7 @@ session_start();
 				
 				//Temp file name
 				$tempFilename = 'tempSig.png';
-				
-				//read binary data from image file
-				//$imgString = file_get_contents($_FILES['signature']['tmp_name']);
-				
+							
 				//create image from string
 				$image = imagecreatefromstring($sig);
 				

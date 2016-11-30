@@ -177,8 +177,8 @@ if($mysqli->connect_errno){
 							//Display temp image if nothing uploaded yet
 							if ($signature == "") {
 								echo "<img src='img_not_available.png'><br>";
-								echo "<p style='color:red;'>NOTE: This is a temporary signature. Please upload a new signature: ";
-								echo "<a href='newSignature.php' class='btn btn-info' role='button'>Upload New Signature</a></p>";
+								echo "<p style='color:red;'>NOTE: No signature image on file. A temporary signature will be used until signature added.</p>";
+								echo "<p><a href='newSignature.php' class='btn btn-md btn-primary' role='button'>Add Signature</a></p>";
 							}
 							
 							//Display image from database

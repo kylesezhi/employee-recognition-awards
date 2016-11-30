@@ -235,12 +235,14 @@ if (isset($_POST['first_name']) & isset($_POST['last_name']) & isset($_POST['ema
 										</div>
 								</div>
 
+								<?php if($_SESSION["user_id"] === $id) {?>
 								<div class="form-group">
 										<label class="control-label col-sm-2">Password:</label>
 										<div class="col-sm-10">
 											<a href="changePassword.php" class="btn btn-sm btn-info" role="button">Change Password</a>
 										</div>
 								</div>
+								<?php } ?>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">

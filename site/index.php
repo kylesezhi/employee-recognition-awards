@@ -128,7 +128,7 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
         <div class="errorMessage">
             <?php
             if ($errorStatus == 1) {
-                echo "<p style='color:red;'>Incorrect username or password. Please try again.</p>";
+				echo "<div class='alert alert-danger' role='alert'>Incorrect username or password. Please try again.</div>";
             }
             ?>
         </div>

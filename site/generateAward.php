@@ -45,7 +45,9 @@ else if($_SESSION['account_type'] === "admin") {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="generateAward.php">Employee Recognition Awards</a>
+			<a class="navbar-left" href="generateAward.php"><img src="img/logo_mini.png" height="50px"></a>
+            <a class="navbar-brand" href="generateAward.php">&nbsp Employee Recognition Awards</a>
+			
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">

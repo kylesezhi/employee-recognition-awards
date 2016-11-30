@@ -110,8 +110,10 @@ if (isset($_POST['inputEmail']) && isset($_POST['inputPassword'])) {
     <div class="container">
 
         <div class="jumbotron">
-            <h1>Employee Recognition Awards</h1>
-            <p class="lead">Recognize the efforts and achievements of your employees!</p>
+			<img src="img/logo.png">
+            <h2><strong>Employee Recognition Awards</strong></h2>
+			<p class="lead">Here at CSK Technologies, we value our hardworking employees.</p>
+			<p class="lead">Their efforts and achievements deserve recognition!</p>
         </div>
 
         <form class="form-signin" action="index.php" method="post">

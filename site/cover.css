@@ -36,6 +36,9 @@ body {
 
 .jumbotron {
   color: #0f0f0f;
+  margin-bottom: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */

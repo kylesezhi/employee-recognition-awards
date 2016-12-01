@@ -8,7 +8,11 @@ ini_set('display_errors', 'On');
 session_start();
 
 //Enforce the correct user type
-if($_SESSION['account_type'] === "regular") {
+if(!isset($_SESSION['account_type'])) {
+    header('Location: index.php');
+    exit();
+}
+else if($_SESSION['account_type'] === "regular") {
 	header('Location: generateAward.php');
 	exit();
 } else if($_SESSION['account_type'] !== "admin") {

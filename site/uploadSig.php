@@ -8,6 +8,10 @@ ini_set('display_errors', 'On');
 //Access current session
 session_start();
 
+if(!isset($_SESSION['account_type'])) {
+    header('Location: index.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

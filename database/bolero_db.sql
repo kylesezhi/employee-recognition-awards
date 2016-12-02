@@ -34,6 +34,7 @@ CREATE TABLE `award`(
 `id` int AUTO_INCREMENT NOT NULL,
 `user_id` int,
 `class_id` int NOT NULL,
+`proclamation` varchar(100) DEFAULT 'for outstanding performance, sevice and dedication',
 `first_name` varchar(50) NOT NULL,
 `last_name` varchar(50) NOT NULL,
 `email` varchar(100) NOT NULL,

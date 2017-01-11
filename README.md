@@ -18,9 +18,24 @@ Username: admin@gmail.com
 
 Password: a
 
+![screenshot](https://raw.githubusercontent.com/kylesezhi/bolero-web3/master/images/image00.png "screenshot")
+
 If you’ve created a user account for your own email address (see below on how to create new accounts), you can also try the “I forgot my password” link on the login page. There you can enter your email address, and you will be sent a link where you can reset your password.
 
 ## Admin Interface
 1. Login as an administrative user (see above).
 2. Try the functionality available in the Users section:
-![screenshot](https://raw.githubusercontent.com/kylesezhi/bolero-web3/master/images/image00.png "screenshot")
+![screenshot](https://raw.githubusercontent.com/kylesezhi/bolero-web3/master/images/image01.png "screenshot")
+  1. Add User - allows you to add regular or admin users.
+    * NOTE: When adding a new user, please provide an email address you can access. The site will send an email with a temporary password to that address.
+  2. Search - allows you to filter the table of users by any column.
+  3. Download CSV - allows you to download the unfiltered table as a CSV file.
+  4. Edit - allows you to edit the given user's account information. The logged-in admin user can also change their password via the edit button for their account.
+  5. Delete - allows you to delete a given user.
+  6. Analytics - more on this in step 3.
+3. Click on the Analytics link (f) and you are presented a chart that represents some of the award data:
+![screenshot](https://raw.githubusercontent.com/kylesezhi/bolero-web3/master/images/image02.png "screenshot")
+  1. These two dropdown menus allow you to look at different variables from the database in a variety of views.
+  2. Each of the view has a series of filters which act on both the chart above them and the table below them.
+  3. As with the users in the previous view, you can download the unfiltered table as a CSV file by clicking this button.
+  4. Click this link to logout of the site.

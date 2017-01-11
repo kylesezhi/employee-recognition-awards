@@ -19,3 +19,8 @@ Username: admin@gmail.com
 Password: a
 
 If you’ve created a user account for your own email address (see below on how to create new accounts), you can also try the “I forgot my password” link on the login page. There you can enter your email address, and you will be sent a link where you can reset your password.
+
+## Admin Interface
+1. Login as an administrative user (see above).
+2. Try the functionality available in the Users section:
+![screenshot](https://raw.githubusercontent.com/kylesezhi/bolero-web3/master/images/image00.png "screenshot")
